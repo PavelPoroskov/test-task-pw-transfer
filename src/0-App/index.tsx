@@ -1,11 +1,11 @@
 import React from 'react';
 
+import MainScreen from "1-screens/MainScreen";
+
 const App: React.FC = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        Hello, world!
-      </header>
+      <MainScreen />
     </div>
   );
 }
