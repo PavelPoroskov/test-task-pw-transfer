@@ -8,5 +8,5 @@ backend api: https://docs.google.com/document/d/1JbBdzroRFkHuUNAF7fnDuXvPgHgY-Xv
 use:  
 typescript,  
 absolute import,  
-redux (ducks),  
+redux with ducks module template,  
 

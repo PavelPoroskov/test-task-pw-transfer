@@ -42,7 +42,7 @@ interface Recipient {
 interface ClientInteface {
   register: (input: RegisterUserInput) => Promise<void>,
   login: (input: LoginInput) => Promise<void>,
-  logout: () => void,
+  logout: () => Promise<void>,
 
   getLoggedUserInfo: () => Promise<UserInfo>,
   getLoggedUserTransactions: () => Promise<Transaction[]>,

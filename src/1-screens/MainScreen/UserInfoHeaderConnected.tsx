@@ -11,9 +11,9 @@ import UserInfoHeader from '5-components/UserInfoHeader'
 // export default UserInfoHeaderConnected;
 
 const mapStateToProps = ({userinfo}: AppStoreState /*, ownProps*/) => ({
-  name: (userinfo && userinfo.name) || '',
-  email: (userinfo && userinfo.email) || '',
-  balance: (userinfo && userinfo.balance) || 0,
+  name: userinfo.name,
+  email: userinfo.email,
+  balance: userinfo.balance,
 })
 
 export default connect(mapStateToProps)(UserInfoHeader);

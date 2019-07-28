@@ -12,12 +12,12 @@ export interface AppStoreState {
   userinfo: UserInfoState;
 }
 
-const rootReducer = combineReducers({
+const rootReducer = combineReducers<AppStoreState>({
   auth,
   userinfo,
 });
 
-const store = createStore<AppStoreState,any,any,any>(
+const store = createStore(
   rootReducer,
   applyMiddleware(thunk)
   // applyMiddleware(thunk.withExtraArgument(client))
