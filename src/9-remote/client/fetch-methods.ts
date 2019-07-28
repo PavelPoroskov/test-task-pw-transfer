@@ -2,17 +2,21 @@ import { BASE_URL } from 'config';
 
 function fetchBase( method: string, apipoint: string, token?: string, input?: any) {
 
-  let options: any = {};
+  let options: any = {
+    method,
+  };
+
+  const headers = new Headers();
+  headers.append('Content-Type', 'application/json');
   if (token) {
-    const headers = new Headers()
     headers.append('Authorization', `Bearer ${token}`)
-    options['headers'] = headers;
   }
+  options['headers'] = headers;
+
   if (input) {
     options['body'] = JSON.stringify(input);
   }
   // ,todo: if result.ok else throw new Error
-  // todo: auth header
   return fetch(`${BASE_URL}${apipoint}`, options).then(result => {
     if (result.ok) {
       return result.json()

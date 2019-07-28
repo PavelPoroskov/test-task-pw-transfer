@@ -18,6 +18,10 @@ export interface UserInfo {
   email: string,
   balance: number,
 };
+interface UserInfoResult {
+  user_info_token: UserInfo
+};
+
 export interface Transaction {
   id: number,
   date: string,
@@ -56,6 +60,8 @@ function makeClient() {
 
   return {
     register: function(input: RegisterUserInput) {
+      // console.log('client/ register');
+      // console.log(input);
       return post('/users', undefined, input)
         .then((result: LoginResult) => {
           token = result.id_token
@@ -73,7 +79,7 @@ function makeClient() {
     },
 
     getLoggedUserInfo: function() {
-      return get('/api/protected/user-info', token )
+      return get('/api/protected/user-info', token ).then((result: UserInfoResult) => result.user_info_token)
     },
     getLoggedUserTransactions: function() {
       return get('/api/protected/transactions', token ).then((result: TransactionsResult) => result.trans_token)

@@ -1,4 +1,4 @@
-import { AnyAction, Dispatch } from 'redux';
+import { AnyAction } from 'redux';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk'
 import client, {UserInfo} from '9-remote/client';
 

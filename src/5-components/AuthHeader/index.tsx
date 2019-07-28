@@ -1,8 +1,10 @@
 import React from 'react';
 
+import LinkButton from '5-components/LinkButton'
+
 interface AuthHeaderProps {
-  readonly openRegister: () => void;
-  readonly openLogin: () => void;
+  // readonly openRegister: () => void;
+  // readonly openLogin: () => void;
   readonly openLogout: () => void;
 }
 const styles: React.CSSProperties = {
@@ -12,12 +14,10 @@ const styles: React.CSSProperties = {
   backgroundColor: 'lightblue',
   justifyContent: 'flex-end',
 };
-const AuthHeader: React.FC<AuthHeaderProps> = ({openRegister, openLogin, openLogout}) => {
+const AuthHeader: React.FC<AuthHeaderProps> = ({openLogout}) => {
   return (
     <div style={styles}>
-      <button onClick={openRegister}>Register</button>
-      <button onClick={openLogin}>Login</button>
-      <button onClick={openLogout}>Logout</button>
+      <LinkButton onClick={openLogout}>Logout</LinkButton>
     </div>
   );
 }

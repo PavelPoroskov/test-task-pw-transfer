@@ -1,4 +1,4 @@
-import { Action, AnyAction } from 'redux';
+import { AnyAction } from 'redux';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk'
 import client, { RegisterUserInput, LoginInput } from '9-remote/client'
 import { getUserInfo, clearUserInfo } from './userinfo'
@@ -75,12 +75,16 @@ export function register(input: RegisterUserInput): ThunkAction<Promise<void>, {
     dispatch(requestRegister())
     return client.register(input)
       .then(() => {
+        console.log('register success');
+        
         dispatch(getUserInfo());
         //dispatch(getTransactions());
         dispatch(requestRegisterSuccess())
       })
       .catch((error: any) => {
-        // todo: add error to messages
+        // // todo: add error to messages
+        // console.log('register error');
+        // console.log(error);
         dispatch(requestRegisterFailure())
       })
   }
