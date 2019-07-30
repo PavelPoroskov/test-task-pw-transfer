@@ -12,9 +12,23 @@ interface FormValues {
 interface OtherProps {
   cancel: () => void;
 }
-const stylesHeader: React.CSSProperties = {
+const containerForm: React.CSSProperties = {
+  display: 'flex', 
+  flexDirection: 'column',
+  border: 'solid',
+  borderRadius: '1em',
   marginTop: '1em',
+  marginBottom: '1em',
+  // backgroundColor: 'lightgreen',
+}
+const stylesHeader: React.CSSProperties = {
+  marginTop: '0.5em',
   paddingLeft: '0.37em',
+  // marginBottom: '0.5em',
+}
+const stylesButton: React.CSSProperties = {
+  marginLeft: '2em',
+  marginRight: '0.75em',
   // marginBottom: '0.5em',
 }
 const TransactioFormView = (props: OtherProps & FormikProps<FormValues>) => {
@@ -22,18 +36,18 @@ const TransactioFormView = (props: OtherProps & FormikProps<FormValues>) => {
   const bundle = { touched, errors, values, onChange: handleChange, onBlur: handleBlur }
 
   return (
-    <Form style={{ display: 'flex', flexDirection: 'column' }}>
+    <Form style={containerForm}>
       {/* <Row>
         <Col l={12} m={12} s={12}> */}
           <h5 style={stylesHeader}>New Transaction</h5>
         {/* </Col>
       </Row> */}
       <Row>
-        <Col l={6} m={6} s={12}>
+        <Col l={12} m={12} s={12}>
           <TextInput label="Recipient" name="name" {...bundle} />
         </Col>
-        <Col l={6} m={6} s={12}>
-          <TextInput label="Amount" name="amount" {...bundle} />
+        <Col l={12} m={12} s={12}>
+          <TextInput type="number" min="0" label="Amount" name="amount" {...bundle} />
         </Col>
       </Row>
       <Row>
@@ -41,7 +55,7 @@ const TransactioFormView = (props: OtherProps & FormikProps<FormValues>) => {
           <Button type="button" waves="light" disabled={isSubmitting} onClick={cancel}>
             Cancel
           </Button>
-          <Button type="submit" waves="light" disabled={isSubmitting} style={{marginLeft: '3em'}}>
+          <Button type="submit" waves="light" disabled={isSubmitting} style={stylesButton}>
             Commit
           </Button>
         </Col>

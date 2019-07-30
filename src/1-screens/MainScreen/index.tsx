@@ -22,6 +22,12 @@ const styles: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
 }
+const containerTransaction: React.CSSProperties = {
+  display: 'flex',
+  justifyContent: 'center',
+  // backgroundColor: 'pink',
+}
+
 const MainScreenView: React.FC<Props> = ({editingTransaction,beginTransaction}) => {
   return (
     <div style={styles}>
@@ -29,7 +35,11 @@ const MainScreenView: React.FC<Props> = ({editingTransaction,beginTransaction}) 
       <UserInfoHeaderConnected />
       
       {!editingTransaction && <LinkButton onClick={beginTransaction}>New Transaction</LinkButton>}
-      {editingTransaction && <TransactionFormConnected />}
+      {editingTransaction && (
+        <div style={containerTransaction}>
+          <TransactionFormConnected />
+        </div>
+      )}
     </div>
   );
 }

@@ -22,7 +22,7 @@ const LoginScreen: React.FC<DispatchProps> = ({submit, switchForm}) => {
   return (
     <div style={stylesRoot} className="valign-wrapper">
       <div style={stylesLevel2} className="col l4 m6 s12 offset-l4 offset-m3">
-        <h4 style={stylesHeader}>Login</h4>
+        <h4 style={stylesHeader} className="center-align">Login</h4>
         <div>
           <LoginForm submit={submit}/>
         </div>

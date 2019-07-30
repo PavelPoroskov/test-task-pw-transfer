@@ -26,7 +26,7 @@ const RegisterScreen: React.FC<DispatchProps> = ({ submit, switchForm }) => {
   return (
     <div style={stylesRoot} className="valign-wrapper">
       <div style={stylesLevel2} className="col l4 m6 s12 offset-l4 offset-m3">
-        <h4 style={stylesHeader}>Register</h4>
+        <h4 style={stylesHeader} className="center-align">Register</h4>
         <div>
           <RegisterForm submit={submit} />
         </div>
