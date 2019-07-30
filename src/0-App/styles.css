@@ -12,3 +12,14 @@
 .link-button:focus {
   text-decoration: none;
 }
+
+/* input:-internal-autofill-selected {
+  background-color: white !important;
+} */
+
+/* .input-field input {
+  background-color: transparent !important;
+} */
+/* input:-webkit-autofill {
+  background-color: white !important;
+} */

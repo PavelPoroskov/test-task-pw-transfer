@@ -13,7 +13,12 @@ const RegisterFormView = (props: FormikProps<FormValues>) => {
   const { isSubmitting, touched, errors, values, handleChange, handleBlur } = props;
   const bundle = {touched, errors, values, onChange: handleChange, onBlur: handleBlur}
   return (
-    <Form style={{ display: 'flex', flexDirection: 'column' }}>
+    <Form style={{ display: 'flex', flexDirection: 'column' }} >
+      <Row>
+        <Col l={12} m={12} s={12}>
+          <h4 className="center-align">Login</h4>
+        </Col>
+      </Row>
       <Row>
         <TextInput label="Email" email name="email" {...bundle} />
       </Row>

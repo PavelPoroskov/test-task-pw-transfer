@@ -16,7 +16,7 @@ function fetchBase( method: string, apipoint: string, token?: string, input?: an
   if (input) {
     options['body'] = JSON.stringify(input);
   }
-  // ,todo: if result.ok else throw new Error
+
   return fetch(`${BASE_URL}${apipoint}`, options).then(result => {
     if (result.ok) {
       return result.json()

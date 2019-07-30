@@ -14,18 +14,12 @@ const stylesLevel2: React.CSSProperties = {
   border: 'solid',
   paddingBottom: '0.75rem',
 }
-const stylesHeader: React.CSSProperties = {
-  marginBottom: '1em',
-}
 
 const LoginScreen: React.FC<DispatchProps> = ({submit, switchForm}) => {
   return (
     <div style={stylesRoot} className="valign-wrapper">
       <div style={stylesLevel2} className="col l4 m6 s12 offset-l4 offset-m3">
-        <h4 style={stylesHeader} className="center-align">Login</h4>
-        <div>
-          <LoginForm submit={submit}/>
-        </div>
+        <LoginForm submit={submit}/>
         <div>
           Use <LinkButton onClick={switchForm}>Register Form </LinkButton> to create an account
         </div>

@@ -21,11 +21,6 @@ const containerForm: React.CSSProperties = {
   marginBottom: '1em',
   // backgroundColor: 'lightgreen',
 }
-const stylesHeader: React.CSSProperties = {
-  marginTop: '0.5em',
-  paddingLeft: '0.37em',
-  // marginBottom: '0.5em',
-}
 const stylesButton: React.CSSProperties = {
   marginLeft: '2em',
   marginRight: '0.75em',
@@ -37,11 +32,11 @@ const TransactioFormView = (props: OtherProps & FormikProps<FormValues>) => {
 
   return (
     <Form style={containerForm}>
-      {/* <Row>
-        <Col l={12} m={12} s={12}> */}
-          <h5 style={stylesHeader}>New Transaction</h5>
-        {/* </Col>
-      </Row> */}
+      <Row>
+        <Col l={12} m={12} s={12}>
+          <h4 className="center-align">New Transaction</h4>
+        </Col>
+      </Row>
       <Row>
         <Col l={12} m={12} s={12}>
           <TextInput label="Recipient" name="name" {...bundle} />
