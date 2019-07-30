@@ -1,29 +1,32 @@
 import React from "react";
-import { withFormik, FormikProps, Form, Field, ErrorMessage } from "formik";
+import { withFormik, FormikProps, Form } from "formik";
 import { string as yup_string, object as yup_object } from "yup";
+
+import { Row, Col, Button } from "react-materialize";
+import TextInput from '6-dsystem/TextInput'
 
 interface FormValues {
   email: string,
   password: string,
 }
 const RegisterFormView = (props: FormikProps<FormValues>) => {
-  const { isSubmitting } = props;
-
+  const { isSubmitting, touched, errors, values, handleChange, handleBlur } = props;
+  const bundle = {touched, errors, values, onChange: handleChange, onBlur: handleBlur}
   return (
     <Form style={{ display: 'flex', flexDirection: 'column' }}>
-      <div>
-        <Field type="email" name="email" />
-        <ErrorMessage name="email" component="div" />
-      </div>
-      <div>
-        <Field type="password" name="password" />
-        <ErrorMessage name="password" component="div" />
-      </div>
-      <div>
-        <button type="submit" disabled={isSubmitting}>
-          Submit
-        </button>
-      </div>
+      <Row>
+        <TextInput label="Email" email name="email" {...bundle} />
+      </Row>
+      <Row>
+        <TextInput label="Password" password name="password" {...bundle} />
+      </Row>
+      <Row>
+        <Col className="right">
+          <Button type="submit" waves="light" disabled={isSubmitting}>
+            Submit
+          </Button>
+        </Col>
+      </Row>
     </Form>
   )
 };
@@ -55,8 +58,8 @@ export default withFormik<MyFormProps, FormValues>({
   // todo: password!==passwordForConfirm
   // },
   validationSchema: yup_object().shape({
-    email: yup_string().email().required("Email is required."),
-    password: yup_string().required("Password is required."),
+    email: yup_string().email().required("email is required."),
+    password: yup_string().required("password is required."),
   }),
   // validateOnBlur: false,
   displayName: 'LoginForm',

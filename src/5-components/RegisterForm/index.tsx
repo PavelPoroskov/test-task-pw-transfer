@@ -1,6 +1,9 @@
 import React from "react";
-import { withFormik, FormikProps, Form, Field, ErrorMessage } from "formik";
-import { string as yup_string, object as yup_object } from "yup";
+import { withFormik, FormikProps, Form } from "formik";
+import { string as yup_string, Schema } from "yup";
+
+import { Row, Col, Button } from "react-materialize";
+import TextInput from '6-dsystem/TextInput'
 
 interface FormValues {
   username: string,
@@ -9,31 +12,30 @@ interface FormValues {
   passwordForConfirm: string,
 }
 const RegisterFormView = (props: FormikProps<FormValues>) => {
-  const { isSubmitting } = props;
+  const { isSubmitting, touched, errors, values, handleChange, handleBlur } = props;
+  const bundle = {touched, errors, values, onChange: handleChange, onBlur: handleBlur}
 
   return (
     <Form style={{ display: 'flex', flexDirection: 'column' }}>
-      <div>
-        <Field type="name" name="username" />
-        <ErrorMessage name="username" component="div" />
-      </div>
-      <div>
-        <Field type="email" name="email" />
-        <ErrorMessage name="email" component="div" />
-      </div>
-      <div>
-        <Field type="password" name="password" />
-        <ErrorMessage name="password" component="div" />
-      </div>
-      <div>
-        <Field type="password" name="passwordForConfirm" />
-        <ErrorMessage name="passwordForConfirm" component="div" />
-      </div>
-      <div>
-      <button type="submit" disabled={isSubmitting}>
-        Submit
-      </button>
-      </div>
+      <Row>
+        <TextInput label="Username" name="username" {...bundle} />
+      </Row>
+      <Row>
+        <TextInput label="Email" email name="email" {...bundle} />
+      </Row>
+      <Row>
+        <TextInput label="Password" password name="password" {...bundle} />
+      </Row>
+      <Row>
+        <TextInput label="Confirm password" password name="passwordForConfirm" {...bundle} />
+      </Row>
+      <Row>
+        <Col className="right">
+          <Button type="submit" waves="light" disabled={isSubmitting}>
+            Submit
+          </Button>
+        </Col>
+      </Row>
     </Form>
   )
 };
@@ -67,15 +69,32 @@ export default withFormik<MyFormProps, FormValues>({
     //   formikBag.setFieldError('title', res.msg)
     // }
   },
-  // validate: values => {
-  // todo: password!==passwordForConfirm
-  // },
-  validationSchema: yup_object().shape({
-    username: yup_string().trim().required("Username is required."),
-    email: yup_string().email().required("Email is required."),
-    password: yup_string().required("Password is required."),
-    passwordForConfirm: yup_string().required("Password is required."),
-  }),
-  // validateOnBlur: false,
+  validate: values => {
+    let errors: {[key: string]: string} = {};
+
+    const testValue = (name: string, schema: Schema<any>, value: any, errors: {[key: string]: string}) => {
+      try {
+        schema.validateSync(value);
+      }catch(err){
+        errors[name] = err.errors[0];
+      };
+     };
+
+    testValue('username', yup_string().trim().required("username is required."), values.username, errors );
+    testValue('email', yup_string().email().required("email is required."), values.email, errors );
+    testValue('password', yup_string().required("password is required."), values.password, errors );
+    testValue('passwordForConfirm', yup_string().required("confirm password is required."), values.passwordForConfirm, errors );
+    if (values.passwordForConfirm!==values.password) {
+      errors['passwordForConfirm'] = 'must be equel to the password'
+    }
+
+    return errors;
+  },
+  // validationSchema: yup_object().shape({
+  //   username: yup_string().trim().required("Username is required."),
+  //   email: yup_string().email().required("Email is required."),
+  //   password: yup_string().required("Password is required."),
+  //   passwordForConfirm: yup_string().required("Confirm password is required."),
+  // }),
   displayName: 'RegisterForm',
 })(RegisterFormView);

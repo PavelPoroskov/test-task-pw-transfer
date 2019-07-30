@@ -32,7 +32,7 @@ export interface Transaction {
 interface TransactionsResult {
   trans_token: Transaction[]
 };
-interface CreateTransactionInput {
+export interface CreateTransactionInput {
   name: string,
   amount: number,
 }

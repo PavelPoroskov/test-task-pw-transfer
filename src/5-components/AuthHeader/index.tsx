@@ -1,6 +1,6 @@
 import React from 'react';
 
-import LinkButton from '5-components/LinkButton'
+import LinkButton from '6-dsystem/LinkButton'
 
 interface AuthHeaderProps {
   // readonly openRegister: () => void;

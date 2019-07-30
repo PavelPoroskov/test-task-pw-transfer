@@ -1,4 +1,4 @@
-.link-button {
+.link-button, .link-button:active {
   background-color: transparent;
   border: none;
   cursor: pointer;

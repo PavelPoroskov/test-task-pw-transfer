@@ -4,20 +4,31 @@ import { ThunkDispatch } from 'redux-thunk'
 import { login, choiceHaveAccount } from '4-store/modules/auth'
 
 import LoginForm from '5-components/LoginForm'
-import LinkButton from '5-components/LinkButton'
+import LinkButton from '6-dsystem/LinkButton'
 
-const styles: React.CSSProperties = {
+const stylesRoot: React.CSSProperties = {
+  minHeight: '100vh',
+}
+const stylesLevel2: React.CSSProperties = {
+  borderRadius: '1em',
+  border: 'solid',
+  paddingBottom: '0.75rem',
+}
+const stylesHeader: React.CSSProperties = {
+  marginBottom: '1em',
 }
 
 const LoginScreen: React.FC<DispatchProps> = ({submit, switchForm}) => {
   return (
-    <div style={styles}>
-      <div>Login</div>
-      <div>
-        <LoginForm submit={submit}/>
-      </div>
-      <div>
-        Use <LinkButton onClick={switchForm}>Register Form </LinkButton> to create account
+    <div style={stylesRoot} className="valign-wrapper">
+      <div style={stylesLevel2} className="col l4 m6 s12 offset-l4 offset-m3">
+        <h4 style={stylesHeader}>Login</h4>
+        <div>
+          <LoginForm submit={submit}/>
+        </div>
+        <div>
+          Use <LinkButton onClick={switchForm}>Register Form </LinkButton> to create an account
+        </div>
       </div>
     </div>
   );
