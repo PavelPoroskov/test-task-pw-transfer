@@ -4,7 +4,7 @@ import { ThunkDispatch } from 'redux-thunk'
 import { commit, cancelTransaction } from '4-store/modules/transaction'
 import {AppStoreState} from '4-store'
 import {DispatchProps} from './types'
-import TransactioFormWithRecepients from './TransactionFormWithRecepients'
+import TransactioFormWithRecipients from './TransactionFormWithRecipients'
 
 const mapStateToProps = ({transaction, userinfo}: AppStoreState /*, ownProps*/) => ({
   name: transaction.name,
@@ -17,4 +17,4 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): DispatchProps
     cancel: () => dispatch(cancelTransaction())
   }
 }
-export default connect(mapStateToProps,mapDispatchToProps)(TransactioFormWithRecepients);
+export default connect(mapStateToProps,mapDispatchToProps)(TransactioFormWithRecipients);

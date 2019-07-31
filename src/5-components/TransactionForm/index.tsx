@@ -4,7 +4,7 @@ import { string as yup_string, number as yup_number, Schema } from "yup";
 
 import { Row, Col, Button } from "react-materialize";
 import TextInput from '6-dsystem/TextInput'
-import Autocomplete from '6-dsystem/Autocomplete'
+import Autocomplete from '6-dsystem/Autocomplete/index'
 
 
 interface FormValues {
@@ -14,7 +14,7 @@ interface FormValues {
 interface OtherProps {
   cancel: () => void;
   onChangeFilter: (filter: string) => void, 
-  recepients: {[key: string]: any}
+  recipients: {[key: string]: any}
 }
 const containerForm: React.CSSProperties = {
   display: 'flex', 
@@ -29,9 +29,9 @@ const stylesButton: React.CSSProperties = {
   marginRight: '0.75em',
 }
 const TransactioFormView = (props: OtherProps & FormikProps<FormValues>) => {
-  const { isSubmitting, touched, errors, handleChange, handleBlur, cancel, recepients, onChangeFilter } = props;
+  const { isSubmitting, touched, errors, handleChange, handleBlur, cancel, recipients, onChangeFilter } = props;
   const bundle = { touched, errors, onChange: handleChange, onBlur: handleBlur }
-  const options={ data: recepients };
+  const options={ data: recipients };
   
   return (
     <Form style={containerForm}>
@@ -75,7 +75,7 @@ interface MyFormProps extends FormValues {
   cancel: () => void;
   balance: number;
   onChangeFilter: (filter: string) => void, 
-  recepients: {[key: string]: any}
+  recipients: {[key: string]: any}
 }
 export default withFormik<MyFormProps, FormValues>({
   mapPropsToValues: (props) => {

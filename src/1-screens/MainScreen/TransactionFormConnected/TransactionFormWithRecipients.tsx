@@ -4,7 +4,7 @@ import client from "8-remote/client"
 import TransactionForm from '5-components/TransactionForm';
 import {Props} from './types';
 
-const TransactionFormWithRecepients: React.FC<Props> = (props) => {
+const TransactionFormWithRecipients: React.FC<Props> = (props) => {
   const [filter, setFilter] = useState('');
   const [data, setData] = useState({});
   // const [error, setError] = useState(null);
@@ -34,7 +34,7 @@ const TransactionFormWithRecepients: React.FC<Props> = (props) => {
     return () => abortController.abort();
   }, [filter]);
 
-  return <TransactionForm onChangeFilter={debouncedOnChange} recepients={data} {...props}/>
+  return <TransactionForm onChangeFilter={debouncedOnChange} recipients={data} {...props}/>
 }
 
-export default TransactionFormWithRecepients;
+export default TransactionFormWithRecipients;
