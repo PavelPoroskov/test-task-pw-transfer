@@ -1,7 +1,8 @@
 import { AnyAction } from 'redux';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk'
-import client, { RegisterUserInput, LoginInput } from '8-remote/client'
+import client, { RegisterUserInput, LoginInput } from '8-remote/client/index'
 import { getUserInfo, clearUserInfo } from './userinfo'
+import { getHistory, clearHistory } from './history'
 
 const REGISTER = 'pw-transfer/auth/REGISTER';
 const REGISTER_SUCCESS = 'pw-transfer/auth/REGISTER_SUCCESS';
@@ -75,10 +76,9 @@ export function register(input: RegisterUserInput): ThunkAction<Promise<void>, {
     dispatch(requestRegister())
     return client.register(input)
       .then(() => {
-        console.log('register success');
         
         dispatch(getUserInfo());
-        //dispatch(getTransactions());
+        dispatch(getHistory());
         dispatch(requestRegisterSuccess())
       })
       .catch((error: any) => {
@@ -95,7 +95,7 @@ export function login(input: LoginInput): ThunkAction<Promise<void>, {}, {}, Any
     return client.login(input)
       .then(() => {
         dispatch(getUserInfo());
-        // dispatch(getTransactions());
+        dispatch(getHistory());
         dispatch(requestLoginSuccess());
       })
       .catch((error: any) => {
@@ -107,7 +107,7 @@ export function login(input: LoginInput): ThunkAction<Promise<void>, {}, {}, Any
 export function logout(): ThunkAction<Promise<void>, {}, {}, AnyAction> {
   return (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
     dispatch(clearUserInfo());
-    // dispatch(clearTransactions());
+    dispatch(clearHistory());
     dispatch(requestLogout());
     return client.logout();
   }

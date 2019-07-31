@@ -9,6 +9,7 @@ import LinkButton from '6-dsystem/LinkButton'
 import AuthHeaderConnected from './AuthHeaderConnected'
 import UserInfoHeaderConnected from './UserInfoHeaderConnected'
 import TransactionFormConnected from './TransactionFormConnected'
+import HistoryConnected from './HistoryConnected'
 
 interface StateProps {
   readonly editingTransaction: boolean,
@@ -25,7 +26,6 @@ const styles: React.CSSProperties = {
 const containerTransaction: React.CSSProperties = {
   display: 'flex',
   justifyContent: 'center',
-  // backgroundColor: 'pink',
 }
 
 const MainScreenView: React.FC<Props> = ({editingTransaction,beginTransaction}) => {
@@ -40,6 +40,7 @@ const MainScreenView: React.FC<Props> = ({editingTransaction,beginTransaction}) 
           <TransactionFormConnected />
         </div>
       )}
+      <HistoryConnected/>
     </div>
   );
 }

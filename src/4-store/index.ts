@@ -4,20 +4,20 @@ import thunk from 'redux-thunk';
 import auth, {AuthSate} from './modules/auth';
 import userinfo, {UserInfoState} from './modules/userinfo';
 import transaction, {TransactionState} from './modules/transaction';
-// import transactions from './transactions';
-// import recipients from './recipients';
-// import messages from './messages';
+import history, {HistoryState} from './modules/history';
 
 export interface AppStoreState {
   auth: AuthSate;
   userinfo: UserInfoState;
   transaction: TransactionState;
+  history: HistoryState;
 }
 
 const rootReducer = combineReducers<AppStoreState>({
   auth,
   userinfo,
   transaction,
+  history,
 });
 
 const store = createStore(
@@ -25,6 +25,5 @@ const store = createStore(
   applyMiddleware(thunk)
   // applyMiddleware(thunk.withExtraArgument(client))
 )
-// export type AppStoreInterface = typeof store
 
 export default store

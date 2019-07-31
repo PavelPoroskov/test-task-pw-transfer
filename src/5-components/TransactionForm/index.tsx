@@ -29,8 +29,8 @@ const stylesButton: React.CSSProperties = {
   marginRight: '0.75em',
 }
 const TransactioFormView = (props: OtherProps & FormikProps<FormValues>) => {
-  const { isSubmitting, touched, errors, handleChange, handleBlur, cancel, recipients, onChangeFilter } = props;
-  const bundle = { touched, errors, onChange: handleChange, onBlur: handleBlur }
+  const { isSubmitting, touched, errors, handleChange, handleBlur, cancel, values, recipients, onChangeFilter } = props;
+  const bundle = { touched, errors, values, onChange: handleChange, onBlur: handleBlur }
   const options={ data: recipients };
   
   return (

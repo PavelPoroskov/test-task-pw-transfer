@@ -27,3 +27,10 @@
 input[type=text]:not(.invalid):focus:not([readonly]) ~ label {
   color: #26a69a;
 }
+
+.hrow {
+  display: flex,
+}
+.hcell {
+  flex: 1,
+}
