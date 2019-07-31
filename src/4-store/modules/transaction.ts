@@ -1,7 +1,7 @@
 import { AnyAction } from 'redux';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk'
 
-import client, {CreateTransactionInput} from '9-remote/client';
+import client, {CreateTransactionInput} from '8-remote/client';
 import { getUserInfo} from './userinfo'
 
 const NEW = 'pw-transfer/transaction/NEW';

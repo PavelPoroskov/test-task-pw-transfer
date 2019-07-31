@@ -1,6 +1,6 @@
 import { AnyAction } from 'redux';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk'
-import client, {UserInfo} from '9-remote/client';
+import client, {UserInfo} from '8-remote/client';
 
 const GET   = 'pw-transfer/userinfor/GET';
 const GET_SUCCESS = 'pw-transfer/userinfor/GET_SUCCESS';

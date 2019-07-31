@@ -22,7 +22,7 @@ class TextInput extends Component {
   componentDidMount() {
     if (typeof M !== undefined) {
       // eslint-disable-next-line react/prop-types
-      // this.props['data-length'] && M.CharacterCounter.init(this.inputRef);
+      this.props['data-length'] && window.M.CharacterCounter.init(this.inputRef);
     }
   }
 
@@ -30,7 +30,7 @@ class TextInput extends Component {
     const { value } = this.props;
 
     if (value !== prevProps.value && typeof M !== 'undefined') {
-      // M.updateTextFields();
+      window.M.updateTextFields();
     }
   }
 

@@ -13,8 +13,8 @@ interface FormValues {
 }
 
 const RegisterFormView = (props: FormikProps<FormValues>) => {
-  const { isSubmitting, touched, errors, values, handleChange, handleBlur } = props;
-  const bundle = {touched, errors, values, onChange: handleChange, onBlur: handleBlur}
+  const { isSubmitting, touched, errors, handleChange, handleBlur } = props;
+  const bundle = {touched, errors, onChange: handleChange, onBlur: handleBlur}
 
   return (
     <Form style={{ display: 'flex', flexDirection: 'column' }}>
@@ -58,22 +58,8 @@ export default withFormik<MyFormProps, FormValues>({
     }
   },
   handleSubmit: (values, formikBag) => {
-    // const {password, passwordForConfirm} = values;
-    // if (password!==passwordForConfirm) {
-
-    // }
     const { passwordForConfirm, ...restValues } = values;
     formikBag.props.submit(restValues);
-    // todo 400: A user with that email already exists
-
-    // formikBag.resetForm({title: ''})
-
-    // const res = formikBag.props.onAddGame(values.title)
-    // if (res.success) {
-    //   formikBag.resetForm({ title: '', isAfterReset: true })
-    // } else {
-    //   formikBag.setFieldError('title', res.msg)
-    // }
   },
   validate: values => {
     let errors: {[key: string]: string} = {};
@@ -96,11 +82,5 @@ export default withFormik<MyFormProps, FormValues>({
 
     return errors;
   },
-  // validationSchema: yup_object().shape({
-  //   username: yup_string().trim().required("Username is required."),
-  //   email: yup_string().email().required("Email is required."),
-  //   password: yup_string().required("Password is required."),
-  //   passwordForConfirm: yup_string().required("Confirm password is required."),
-  // }),
   displayName: 'RegisterForm',
 })(RegisterFormView);

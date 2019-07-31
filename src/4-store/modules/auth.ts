@@ -1,6 +1,6 @@
 import { AnyAction } from 'redux';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk'
-import client, { RegisterUserInput, LoginInput } from '9-remote/client'
+import client, { RegisterUserInput, LoginInput } from '8-remote/client'
 import { getUserInfo, clearUserInfo } from './userinfo'
 
 const REGISTER = 'pw-transfer/auth/REGISTER';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { ThunkDispatch } from 'redux-thunk'
 
@@ -9,25 +8,10 @@ interface DispatchProps {
   logout: () => void,
 }
 
-const AuthHeaderConnected: React.FC<DispatchProps> = ({logout}) => {
-  // const openRegister = () => {
-
-  // }
-  // const openLogin = () => {
-    
-  // }
-  // const openLogout = () => {
-    
-  // }
-
-  return <AuthHeader openLogout={logout}/>;
-}
-
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): DispatchProps => {
   return {
     logout: () => dispatch(logout())
   }
 }
 
-// export default connect(mapStateToProps,mapDispatchToProps)(RegisterFormConnected);
-export default connect(null,mapDispatchToProps)(AuthHeaderConnected);
+export default connect(null,mapDispatchToProps)(AuthHeader);

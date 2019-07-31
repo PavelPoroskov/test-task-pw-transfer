@@ -50,7 +50,7 @@ interface ClientInteface {
 
   getLoggedUserInfo: () => Promise<UserInfo>,
   getLoggedUserTransactions: () => Promise<Transaction[]>,
-  getRecipients: (filter: string) => Promise<Recipient[]>,
+  getRecipients: (filter: string, options?: any) => Promise<Recipient[]>,
 
   createTransaction: (input: CreateTransactionInput) => Promise<void>,
 }
@@ -60,8 +60,6 @@ function makeClient() {
 
   return {
     register: function(input: RegisterUserInput) {
-      // console.log('client/ register');
-      // console.log(input);
       return post('/users', undefined, input)
         .then((result: LoginResult) => {
           token = result.id_token
@@ -84,8 +82,8 @@ function makeClient() {
     getLoggedUserTransactions: function() {
       return get('/api/protected/transactions', token ).then((result: TransactionsResult) => result.trans_token)
     },
-    getRecipients: function(filter: string) {
-      return post('/api/protected/users/list', token, {filter} )
+    getRecipients: function(filter: string, options?: any) {
+      return post('/api/protected/users/list', token, {filter}, options )
     },
 
     createTransaction: function(input: CreateTransactionInput) {
