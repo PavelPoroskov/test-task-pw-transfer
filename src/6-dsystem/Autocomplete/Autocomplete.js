@@ -39,7 +39,10 @@ class Autocomplete extends Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
+    console.log('componentDidUpdate')
     if (this.state.prevData !== prevState.prevData) {
+      console.log('componentDidUpdate updateData')
+      console.log(this.state.prevData)
       this.instance.updateData(this.state.prevData);
       this.instance.open();
     }

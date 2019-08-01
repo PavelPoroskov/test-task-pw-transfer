@@ -20,8 +20,12 @@ function fetchBase( method: string, apipoint: string, token?: string, input?: an
     if (result.ok) {
       return result.json()
     }
-
-    throw new Error(`${result.status}, ${result.statusText}`);
+    return result.text()
+  }).then(result => {
+    if (typeof result == "string") {
+      throw new Error(result)
+    }
+    return result
   })
 }
 

@@ -1,6 +1,10 @@
 import { AnyAction } from 'redux';
-import { ThunkAction, ThunkDispatch } from 'redux-thunk'
-import client, {Transaction} from '8-remote/client';
+import { ofType } from "redux-observable"
+import { switchMap, map, catchError } from "rxjs/operators";
+import { of, from  } from "rxjs";
+
+import {Transaction} from '8-remote/client';
+import { AppEpic } from "../types"
 
 const GET   = 'pw-transfer/history/GET';
 const GET_SUCCESS = 'pw-transfer/history/GET_SUCCESS';
@@ -37,22 +41,17 @@ export default function reducer(state: HistoryState = initState, action: AnyActi
 }
 
 // Action Creators
-const requestHistory = () => ({ type: GET });
+export const requestHistory = () => ({ type: GET });
 const requestHistorySuccess = (payload: Transaction[]) => ({ type: GET_SUCCESS, payload });
 const requestHistoryFailure = (payload: any) => ({ type: GET_FAILURE, payload });
 export const clearHistory = () => ({ type: CLEAR });
 
-// Side Effects
-export function getHistory (): ThunkAction<Promise<void>, {}, {}, AnyAction> {
-  return (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
-    dispatch(requestHistory())
-    return client.getLoggedUserTransactions()
-      .then((result: Transaction[]) => {
-        dispatch(requestHistorySuccess(result))
-      })
-      .catch((error:any) => {
-        // todo error to messages
-        dispatch(requestHistoryFailure(error))
-      })
-  }
-}
+export const historyEpic: AppEpic = (action$, state$, {client}) => action$.pipe(
+  ofType(GET),
+  switchMap(({payload}) =>
+    from(client.getLoggedUserTransactions()).pipe(
+      map(response => requestHistorySuccess(response)),
+      catchError(error => of(requestHistoryFailure(error)))
+    )
+  )
+);

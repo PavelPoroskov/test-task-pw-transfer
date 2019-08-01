@@ -1,15 +1,14 @@
 import { createSelector } from 'reselect';
-import {AppStoreState} from "./index"
-import { sortReverseBy } from '9-helpers/index';
+import {RootState} from "./types"
+import { sortBy } from '9-helpers/index';
 
-const history = (state: AppStoreState) => state.history.list;
+const history = (state: RootState) => state.history.list;
 
 export const sortedHistory = createSelector(
   history,
   (history) => {
     const list = history.slice();
-    list.sort(sortReverseBy('date'));
+    list.sort(sortBy('date', false));
     return list;
   },
 );
-

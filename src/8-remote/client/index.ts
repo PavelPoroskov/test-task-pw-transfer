@@ -39,11 +39,11 @@ export interface CreateTransactionInput {
 interface CreateTransactionResult {
   trans_token: Transaction
 }
-interface Recipient {
+export interface Recipient {
   id: number,
   name: string
 }
-interface ClientInteface {
+export interface ClientInteface {
   register: (input: RegisterUserInput) => Promise<void>,
   login: (input: LoginInput) => Promise<void>,
   logout: () => Promise<void>,

@@ -1,43 +1,48 @@
 import React from 'react';
+import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { ThunkDispatch } from 'redux-thunk'
-import { register, choiceHaveAccount } from '4-store/modules/auth'
+import { requestRegister, choiceUseLoginForm } from '4-store/modules/auth'
+import { RootState } from '4-store/types'
 
 import RegisterForm from '5-components/RegisterForm'
 import LinkButton from '6-dsystem/LinkButton'
 
-interface DispatchProps {
-  submit: (input: any) => void,
-  switchForm: () => void,
+const mapStateToProps = ({ auth }: RootState /*, ownProps*/) => ({
+  errorMessage: auth.errorMessage,
+})
+type StateProps = ReturnType<typeof mapStateToProps>;
+
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    submit: (input: any) => dispatch(requestRegister(input)),
+    switchForm: () => dispatch(choiceUseLoginForm(true))
+  }
 }
+type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 
 const stylesRoot: React.CSSProperties = {
-  minHeight: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
 }
-const stylesLevel2: React.CSSProperties = {
-  borderRadius: '1em',
-  border: 'solid',
-  paddingBottom: '0.75rem',
+const stylesFormContainer: React.CSSProperties = {
+//   position: 'absolute',
+//   top: '10%',
+    marginTop: '10%',
+    // display: 'flex',
+    // justifyContent: 'center',
 }
-const RegisterScreen: React.FC<DispatchProps> = ({ submit, switchForm }) => {
+const RegisterScreen: React.FC<DispatchProps & StateProps> = ({ submit, switchForm, errorMessage }) => {
   return (
-    <div style={stylesRoot} className="valign-wrapper">
-      <div style={stylesLevel2} className="col l4 m6 s12 offset-l4 offset-m3">
-        <RegisterForm submit={submit} />
-        <div>
-          Use <LinkButton onClick={switchForm}>Login Form </LinkButton> if you have an account
-        </div>
+    <div style={stylesRoot}>
+      <div style={stylesFormContainer}>
+        <RegisterForm submit={submit} errorMessage={errorMessage} />
+      </div>
+      <div>
+        Use <LinkButton onClick={switchForm}>Login Form </LinkButton> if you have an account
       </div>
     </div>
   );
 }
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): DispatchProps => {
-  return {
-    submit: (input) => dispatch(register(input)),
-    switchForm: () => dispatch(choiceHaveAccount(true))
-  }
-}
-
-// export default connect(mapStateToProps,mapDispatchToProps)(RegisterFormConnected);
-export default connect(null, mapDispatchToProps)(RegisterScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen);

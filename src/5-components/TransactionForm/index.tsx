@@ -14,27 +14,19 @@ interface FormValues {
 interface OtherProps {
   cancel: () => void;
   onChangeFilter: (filter: string) => void, 
-  recipients: {[key: string]: any}
-}
-const containerForm: React.CSSProperties = {
-  display: 'flex', 
-  flexDirection: 'column',
-  border: 'solid',
-  borderRadius: '1em',
-  marginTop: '1em',
-  marginBottom: '1em',
-}
-const stylesButton: React.CSSProperties = {
-  marginLeft: '2em',
-  marginRight: '0.75em',
+  recipients: {[key: string]: any},
+  errorMessage: null | string
 }
 const TransactioFormView = (props: OtherProps & FormikProps<FormValues>) => {
-  const { isSubmitting, touched, errors, handleChange, handleBlur, cancel, values, recipients, onChangeFilter } = props;
-  const bundle = { touched, errors, values, onChange: handleChange, onBlur: handleBlur }
+  const { touched, errors, handleChange, handleBlur, cancel, values, 
+    recipients, onChangeFilter, errorMessage } = props;
+  const bundle = { touched, errors, values, onChange: handleChange, onBlur: handleBlur };
+  console.log('TransactioFormView');
+  console.log(recipients);
   const options={ data: recipients };
   
   return (
-    <Form style={containerForm}>
+    <Form className="form">
       <Row>
         <Col l={12} m={12} s={12}>
           <h4 className="center-align">New Transaction</h4>
@@ -57,12 +49,19 @@ const TransactioFormView = (props: OtherProps & FormikProps<FormValues>) => {
           <TextInput type="number" min="0" label="Amount" name="amount"  autoComplete="off" {...bundle} />
         </Col>
       </Row>
+      {errorMessage && (
+        <Row>
+          <Col l={12} m={12} s={12}>
+            <div className="center-align form-error">{errorMessage}</div>
+          </Col>
+        </Row>
+        )}
       <Row>
         <Col className="right">
           <Button type="button" waves="light" onClick={cancel}>
             Cancel
           </Button>
-          <Button type="submit" waves="light" disabled={isSubmitting} style={stylesButton}>
+          <Button type="submit" waves="light" className="form-button">
             Commit
           </Button>
         </Col>
@@ -75,7 +74,8 @@ interface MyFormProps extends FormValues {
   cancel: () => void;
   balance: number;
   onChangeFilter: (filter: string) => void, 
-  recipients: {[key: string]: any}
+  recipients: {[key: string]: any},
+  errorMessage: null | string;
 }
 export default withFormik<MyFormProps, FormValues>({
   mapPropsToValues: (props) => {

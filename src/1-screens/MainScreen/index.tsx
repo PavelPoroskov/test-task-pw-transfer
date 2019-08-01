@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { ThunkDispatch } from 'redux-thunk'
+import { Dispatch } from 'redux'
 
-import { newTransaction } from '4-store/modules/transaction'
-import {AppStoreState} from '4-store'
+import { newTransaction, choiceHistory } from '4-store/modules/transaction'
+import { RootState } from '4-store/types'
 
 import LinkButton from '6-dsystem/LinkButton'
 import AuthHeaderConnected from './AuthHeaderConnected'
@@ -11,12 +11,18 @@ import UserInfoHeaderConnected from './UserInfoHeaderConnected'
 import TransactionFormConnected from './TransactionFormConnected'
 import HistoryConnected from './HistoryConnected'
 
-interface StateProps {
-  readonly editingTransaction: boolean,
+const mapStateToProps = ({ transaction }: RootState /*, ownProps*/) => ({
+  editingTransaction: transaction.editing,
+  showHistory: transaction.showHistory,
+})
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    beginTransaction: () => dispatch(newTransaction()),
+    choiceHistory: (showHistory: boolean) => dispatch(choiceHistory(showHistory))
+  }
 }
-interface DispatchProps {
-  beginTransaction: () => void,
-}
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 type Props = StateProps & DispatchProps;
 
 const styles: React.CSSProperties = {
@@ -27,30 +33,34 @@ const containerTransaction: React.CSSProperties = {
   display: 'flex',
   justifyContent: 'center',
 }
+const styleMenu: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between', //? compatibility
+  paddingLeft: '0.5em',
+  paddingRight: '0.5em',
+}
 
-const MainScreenView: React.FC<Props> = ({editingTransaction,beginTransaction}) => {
+const MainScreenView: React.FC<Props> = ({ editingTransaction, beginTransaction, showHistory, choiceHistory }) => {
   return (
     <div style={styles}>
       <AuthHeaderConnected />
       <UserInfoHeaderConnected />
-      
-      {!editingTransaction && <LinkButton onClick={beginTransaction}>New Transaction</LinkButton>}
-      {editingTransaction && (
+
+      <div style={styleMenu}>
+        {!showHistory && <LinkButton onClick={() => choiceHistory(true)}>Show History</LinkButton>}
+        {showHistory && <LinkButton onClick={() => choiceHistory(false)}>Hide History</LinkButton>}
+        <LinkButton onClick={beginTransaction}>New Transaction</LinkButton>
+      </div>
+      {!showHistory && editingTransaction && (
         <div style={containerTransaction}>
           <TransactionFormConnected />
         </div>
       )}
-      <HistoryConnected/>
+      {showHistory && <HistoryConnected />}
     </div>
   );
 }
 
-const mapStateToProps = ({transaction}: AppStoreState /*, ownProps*/) => ({
-  editingTransaction: transaction.editing,
-})
-const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): DispatchProps => {
-  return {
-    beginTransaction: () => dispatch(newTransaction())
-  }
-}
-export default connect(mapStateToProps,mapDispatchToProps)(MainScreenView);
+export default connect(mapStateToProps, mapDispatchToProps)(MainScreenView);

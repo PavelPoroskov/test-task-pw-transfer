@@ -1,29 +1,45 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
-import thunk from 'redux-thunk';
+import client from '8-remote/client/index'
+import { Action, applyMiddleware, combineReducers, createStore } from "redux";
 
-import auth, {AuthSate} from './modules/auth';
-import userinfo, {UserInfoState} from './modules/userinfo';
-import transaction, {TransactionState} from './modules/transaction';
-import history, {HistoryState} from './modules/history';
+import { combineEpics, createEpicMiddleware} from 'redux-observable';
 
-export interface AppStoreState {
-  auth: AuthSate;
-  userinfo: UserInfoState;
-  transaction: TransactionState;
-  history: HistoryState;
-}
+import auth, {registerEpic, loginEpic} from './modules/auth';
+import userinfo, {userInfoEpic, userInfoClearEpic} from './modules/userinfo';
+import history, {historyEpic} from './modules/history';
+import transaction, {commitEpic} from './modules/transaction';
+import recipients, {recipientsEpic} from './modules/recipients';
 
-const rootReducer = combineReducers<AppStoreState>({
+import {RootState, EpicDependencies} from './types'
+
+const rootReducer = combineReducers<RootState>({
   auth,
   userinfo,
   transaction,
   history,
+  recipients,
 });
 
-const store = createStore(
-  rootReducer,
-  applyMiddleware(thunk)
-  // applyMiddleware(thunk.withExtraArgument(client))
-)
+const rootEpic = combineEpics(
+  registerEpic,
+  loginEpic,
+  // logoutEpic,
+  userInfoEpic,
+  userInfoClearEpic,
+  historyEpic,
+  commitEpic,
+  recipientsEpic
+);
+const epicMiddleware = createEpicMiddleware<Action,Action,RootState,EpicDependencies>({dependencies: { client } });
 
-export default store
+function configureStore() {
+  const store = createStore(
+    rootReducer,
+    applyMiddleware(epicMiddleware)
+  );
+
+  epicMiddleware.run(rootEpic);
+
+  return store;
+}
+
+export default configureStore()

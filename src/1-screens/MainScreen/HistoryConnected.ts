@@ -1,19 +1,16 @@
 import { connect } from 'react-redux';
-import { ThunkDispatch } from 'redux-thunk'
+import { Dispatch } from 'redux';
 
-import {AppStoreState} from '4-store'
+import {RootState} from '4-store/types'
 import {sortedHistory} from '4-store/selectors'
 import { copyTransaction } from '4-store/modules/transaction'
 
 import History from '5-components/History'
 
-interface DispatchProps {
-  copyTransaction: (payload: {name: string, amount: number}) => void,
-}
-const mapStateToProps = (state: AppStoreState /*, ownProps*/) => ({
+const mapStateToProps = (state: RootState /*, ownProps*/) => ({
   list: sortedHistory(state),
 })
-const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>): DispatchProps => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     copyTransaction: (payload?: {name: string, amount: number}) => dispatch(copyTransaction(payload))
   }

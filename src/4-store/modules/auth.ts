@@ -1,8 +1,11 @@
 import { AnyAction } from 'redux';
-import { ThunkAction, ThunkDispatch } from 'redux-thunk'
-import client, { RegisterUserInput, LoginInput } from '8-remote/client/index'
-import { getUserInfo, clearUserInfo } from './userinfo'
-import { getHistory, clearHistory } from './history'
+import { ofType } from "redux-observable"
+import { switchMap, mergeMap, catchError } from "rxjs/operators";
+import { of, from  } from "rxjs";
+
+import { RegisterUserInput, LoginInput } from '8-remote/client/index'
+import { requestUserInfo } from './userinfo'
+import { AppEpic } from "../types"
 
 const REGISTER = 'pw-transfer/auth/REGISTER';
 const REGISTER_SUCCESS = 'pw-transfer/auth/REGISTER_SUCCESS';
@@ -11,30 +14,35 @@ const LOGIN = 'pw-transfer/auth/LOGIN';
 const LOGIN_SUCCESS = 'pw-transfer/auth/LOGIN_SUCCESS';
 const LOGIN_FAILURE = 'pw-transfer/auth/LOGIN_FAILURE';
 const LOGOUT = 'pw-transfer/auth/LOGOUT';
-const CHOICE_HAVE_ACCOUNT = 'pw-transfer/auth/CHOICE_HAVE_ACCOUNT';
+const CHOICE_USE_LOGIN_FORM = 'pw-transfer/auth/CHOICE_USE_LOGIN_FORM';
 
-export interface AuthSate {
+export interface AuthState {
   logged: boolean;
-  haveAccount: boolean;
+  useLoginForm: boolean;
+  errorMessage: string | null;
 };
 
-const initState: AuthSate = {
+const initState: AuthState = {
   logged: false,
-  haveAccount: true,
+  useLoginForm: true,
+  errorMessage: null,
 }
-// Reducer
-export default function reducer(state: AuthSate = initState, action: AnyAction): AuthSate {
+
+export default function reducer(state: AuthState = initState, action: AnyAction): AuthState {
+  console.log(`autt/ reducer ${action.type}`)
   switch (action.type) {
-    case CHOICE_HAVE_ACCOUNT:
+    case CHOICE_USE_LOGIN_FORM:
       return {
-        ...state,
-        haveAccount: action.payload,
+        ...initState,
+        useLoginForm: action.payload,
+        errorMessage: null,
       }
     case REGISTER:
     case LOGIN:
       return {
         ...state,
         logged: false,
+        errorMessage: null,
       }
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
@@ -47,68 +55,56 @@ export default function reducer(state: AuthSate = initState, action: AnyAction):
       return {
         ...state,
         logged: false,
+        errorMessage: action.payload
       }
     case LOGOUT:
-      return {
-        ...state,
-        logged: false,
-      }
+      return initState
     default:
       return state;
   }
 }
 
 // Action Creators
-export const choiceHaveAccount = (payload: boolean) => ({ type: CHOICE_HAVE_ACCOUNT, payload });
-const requestRegister = () => ({ type: REGISTER });
-const requestRegisterSuccess = () => ({ type: REGISTER_SUCCESS });
-const requestRegisterFailure = () => ({ type: REGISTER_FAILURE });
+export const choiceUseLoginForm = (payload: boolean) => ({ type: CHOICE_USE_LOGIN_FORM, payload });
 
-const requestLogin = () => ({ type: LOGIN });
+export const requestRegister = (input: RegisterUserInput) => ({ type: REGISTER, payload: input });
+const requestRegisterSuccess = () => ({ type: REGISTER_SUCCESS });
+const requestRegisterFailure = (error: any) => ({ type: REGISTER_FAILURE, payload: error.message });
+
+export const requestLogin = (input: LoginInput) => ({ type: LOGIN, payload: input });
 const requestLoginSuccess = () => ({ type: LOGIN_SUCCESS });
-const requestLoginFailure = () => ({ type: LOGIN_FAILURE });
+const requestLoginFailure = (error: any) => ({ type: LOGIN_FAILURE, payload: error.message })
 
 export const requestLogout = () => ({ type: LOGOUT });
 
 // Side Effects
-export function register(input: RegisterUserInput): ThunkAction<Promise<void>, {}, {}, AnyAction> {
-  return (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
-    dispatch(requestRegister())
-    return client.register(input)
-      .then(() => {
-        
-        dispatch(getUserInfo());
-        dispatch(getHistory());
-        dispatch(requestRegisterSuccess())
-      })
-      .catch((error: any) => {
-        // // todo: add error to messages
-        // console.log('register error');
-        // console.log(error);
-        dispatch(requestRegisterFailure())
-      })
-  }
-}
-export function login(input: LoginInput): ThunkAction<Promise<void>, {}, {}, AnyAction> {
-  return (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
-    dispatch(requestLogin())
-    return client.login(input)
-      .then(() => {
-        dispatch(getUserInfo());
-        dispatch(getHistory());
-        dispatch(requestLoginSuccess());
-      })
-      .catch((error: any) => {
-        // todo: add error to messages
-        dispatch(requestLoginFailure())
-      })
-  }
-}
-export function logout(): ThunkAction<Promise<void>, {}, {}, AnyAction> {
-  return (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
-    dispatch(clearUserInfo());
-    dispatch(clearHistory());
-    dispatch(requestLogout());
-    return client.logout();
-  }
-}
+export const registerEpic: AppEpic = (action$, state$, {client}) => action$.pipe(
+  ofType(REGISTER),
+  switchMap(({payload}) =>
+    from(client.register(payload)).pipe(
+      mergeMap(response => of(
+        requestRegisterSuccess(), 
+        requestUserInfo()
+      )),
+      catchError(error => of(requestRegisterFailure(error)))
+    )
+  )
+);
+
+export const loginEpic: AppEpic = (action$, state$, {client}) => action$.pipe(
+  ofType(LOGIN),
+  switchMap(({payload}) =>
+    from(client.login(payload)).pipe(
+      mergeMap(response => of(
+        requestLoginSuccess(),
+        requestUserInfo()
+      )),
+      catchError(error => of(requestLoginFailure(error)))
+    )
+  )
+);
+
+// export const logoutEpic: AppEpic = (action$, state$, {client}) => action$.pipe(
+//   ofType(LOGOUT),
+//   map((response) => of(clearUserInfo())),
+// );

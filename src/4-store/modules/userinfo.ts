@@ -1,6 +1,11 @@
 import { AnyAction } from 'redux';
-import { ThunkAction, ThunkDispatch } from 'redux-thunk'
-import client, {UserInfo} from '8-remote/client';
+import { switchMap, mergeMap, catchError } from "rxjs/operators";
+import { of, from  } from "rxjs";
+import { ofType } from "redux-observable"
+
+import {UserInfo} from '8-remote/client';
+import {requestHistory,clearHistory} from './history'
+import { AppEpic } from "../types"
 
 const GET   = 'pw-transfer/userinfor/GET';
 const GET_SUCCESS = 'pw-transfer/userinfor/GET_SUCCESS';
@@ -31,22 +36,28 @@ export default function reducer(state: UserInfoState = initState, action: AnyAct
 }
 
 // Action Creators
-const requestUserInfo = () => ({ type: GET });
+export const requestUserInfo = () => ({ type: GET });
 const requestUserInfoSuccess = (payload: UserInfo) => ({ type: GET_SUCCESS, payload });
 const requestUserInfoFailure = (payload: any) => ({ type: GET_FAILURE, payload });
 export const clearUserInfo = () => ({ type: CLEAR });
 
-// Side Effects
-export function getUserInfo (): ThunkAction<Promise<void>, {}, {}, AnyAction> {
-  return (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
-    dispatch(requestUserInfo())
-    return client.getLoggedUserInfo()
-      .then((result:UserInfo) => {
-        dispatch(requestUserInfoSuccess(result))
-      })
-      .catch((error:any) => {
-        // todo error to messages
-        dispatch(requestUserInfoFailure(error))
-      })
-  }
-}
+export const userInfoClearEpic: AppEpic = (action$, state$, {client}) => action$.pipe(
+  ofType(CLEAR),
+  mergeMap(response => of(
+    clearUserInfo(), 
+    clearHistory()
+  )),
+);
+export const userInfoEpic: AppEpic = (action$, state$, {client}) => action$.pipe(
+  ofType(GET),
+  switchMap(({payload}) =>
+    from(client.getLoggedUserInfo()).pipe(
+      // map(response => requestUserInfoSuccess(response)),
+      mergeMap(response => of(
+        requestUserInfoSuccess(response), 
+        requestHistory()
+      )),
+      catchError(error => of(requestUserInfoFailure(error)))
+    )
+  )
+);
