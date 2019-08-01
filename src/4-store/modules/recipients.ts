@@ -28,11 +28,10 @@ export default function reducer(state: RecipientsState = initState, action: AnyA
         filter: action.payload,
       }
     case GET_SUCCESS:
-      console.log('GET_SUCCESS');
       return {
         ...state,
         list: action.payload.reduce((acc:{[key: string]: any},item:any) => {
-          acc[item.id] = item.name;
+          acc[item.name] = null;
           return acc;
         }, {}),
       }
@@ -44,11 +43,7 @@ export default function reducer(state: RecipientsState = initState, action: AnyA
 }
 
 // Action Creators
-//export const requestRecipients = (filter: string) => ({ type: GET, payload: filter });
-export const requestRecipients = (filter: string) => {
-  console.log(`requestRecipients ${filter}`)
-  return { type: GET, payload: filter };
-}
+export const requestRecipients = (filter: string) => ({ type: GET, payload: filter });
 const requestRecipientsSuccess = (payload: any[]) => ({ type: GET_SUCCESS, payload });
 const requestRecipientsFailure = (error: any) => ({ type: GET_FAILURE, payload: error.message })
 

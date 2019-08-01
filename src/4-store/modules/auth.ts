@@ -29,7 +29,6 @@ const initState: AuthState = {
 }
 
 export default function reducer(state: AuthState = initState, action: AnyAction): AuthState {
-  console.log(`autt/ reducer ${action.type}`)
   switch (action.type) {
     case CHOICE_USE_LOGIN_FORM:
       return {

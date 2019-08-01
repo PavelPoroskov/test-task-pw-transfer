@@ -75,7 +75,7 @@ export default function reducer(state: TransactionState = initState, action: Any
 export const newTransaction = () => ({ type: NEW });
 export const copyTransaction = (payload?: CreateTransactionInput) => ({ type: COPY, payload });
 export const cancelTransaction = () => ({ type: CANCEL });
-export const requestCommit = (input: CreateTransactionInput) => ({ type: COMMIT });
+export const requestCommit = (input: CreateTransactionInput) => ({ type: COMMIT, payload: input });
 const requestCommitSuccess = () => ({ type: COMMIT_SUCCESS });
 const requestCommitFailure = (error: any) => ({ type: COMMIT_FAILURE, payload: error.message });
 

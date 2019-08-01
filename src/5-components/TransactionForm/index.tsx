@@ -21,8 +21,6 @@ const TransactioFormView = (props: OtherProps & FormikProps<FormValues>) => {
   const { touched, errors, handleChange, handleBlur, cancel, values, 
     recipients, onChangeFilter, errorMessage } = props;
   const bundle = { touched, errors, values, onChange: handleChange, onBlur: handleBlur };
-  console.log('TransactioFormView');
-  console.log(recipients);
   const options={ data: recipients };
   
   return (
