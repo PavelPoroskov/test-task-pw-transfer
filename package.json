@@ -2,7 +2,7 @@
   "name": "test-task-pw-transfer",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://PavelPoroskov.github.io/test-task-pw-transfer/",
+  "homepage": "https://PavelPoroskov.github.io/test-task-pw-transfer",
   "dependencies": {
     "@types/jest": "24.0.15",
     "@types/node": "12.6.8",
