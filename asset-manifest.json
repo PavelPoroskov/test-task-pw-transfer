@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/test-task-pw-transfer/static/css/main.2e6f2860.chunk.css",
+    "main.js": "/test-task-pw-transfer/static/js/main.713814da.chunk.js",
+    "main.js.map": "/test-task-pw-transfer/static/js/main.713814da.chunk.js.map",
+    "runtime~main.js": "/test-task-pw-transfer/static/js/runtime~main.1d6d7d1d.js",
+    "runtime~main.js.map": "/test-task-pw-transfer/static/js/runtime~main.1d6d7d1d.js.map",
+    "static/js/2.6218e9e8.chunk.js": "/test-task-pw-transfer/static/js/2.6218e9e8.chunk.js",
+    "static/js/2.6218e9e8.chunk.js.map": "/test-task-pw-transfer/static/js/2.6218e9e8.chunk.js.map",
+    "index.html": "/test-task-pw-transfer/index.html",
+    "precache-manifest.2d4fbafe887380f684108bb9eeef7c98.js": "/test-task-pw-transfer/precache-manifest.2d4fbafe887380f684108bb9eeef7c98.js",
+    "service-worker.js": "/test-task-pw-transfer/service-worker.js",
+    "static/css/main.2e6f2860.chunk.css.map": "/test-task-pw-transfer/static/css/main.2e6f2860.chunk.css.map"
+  }
+}
