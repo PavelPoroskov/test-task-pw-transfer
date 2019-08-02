@@ -6,6 +6,7 @@ import {UserInfoState} from './modules/userinfo';
 import {HistoryState} from './modules/history';
 import {TransactionState} from './modules/transaction';
 import {RecipientsState} from './modules/recipients';
+import {FrontState} from './modules/front';
 
 export interface RootState {
   auth: AuthState;
@@ -13,13 +14,14 @@ export interface RootState {
   history: HistoryState;
   transaction: TransactionState;
   recipients: RecipientsState;
+  front: FrontState;
 }
 
 export interface EpicDependencies {
   readonly client: ClientInteface;
 }
 
-interface ActionP extends Action {
+export interface ActionP extends Action {
   payload?: any
 }
 

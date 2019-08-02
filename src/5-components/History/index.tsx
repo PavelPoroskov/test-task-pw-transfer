@@ -13,14 +13,6 @@ export interface HistoryProps {
   list: Transaction[],
   copyTransaction: (input: {name: string, amount: number}) => void
 };
-const stylesContainer: React.CSSProperties = {
-  // display: 'flex',
-  // flexDirection: 'column',
-  // padding: '1em 1em',
-  // backgroundColor: 'lightyellow',
-  // justifyContent: 'space-between', //? compatibility
-  // fontSize: '2em',
-};
 
 const History: React.FC<HistoryProps> = ({ list, copyTransaction }) => {
   const onClick = (e: any) => {
@@ -31,7 +23,7 @@ const History: React.FC<HistoryProps> = ({ list, copyTransaction }) => {
     })
   }
   return (
-    <div style={stylesContainer}>
+    <div>
       <Row>
         <Col l={12} m={12} s={12}>
           <h5 className="center-align">History</h5> 

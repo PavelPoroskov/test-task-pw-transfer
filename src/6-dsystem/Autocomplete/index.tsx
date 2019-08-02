@@ -2,10 +2,7 @@ import React from 'react';
 
 import MAutocomplete from "./Autocomplete";
 
-const Autocomplete: React.FC<any> = ({errors, touched, values, ...restProps}) => {
-  const name = restProps.name;
-  const error = (errors[name] && touched[name] && errors[name]) || undefined;
-
+const Autocomplete: React.FC<any> = ({error, ...restProps}) => {
   return (
     <MAutocomplete 
       l={12}
@@ -13,7 +10,6 @@ const Autocomplete: React.FC<any> = ({errors, touched, values, ...restProps}) =>
       m={12}
       error={error}
       inputClassName={error ? 'invalid' : ''}
-      value={values && values[name] && `${values[name]}`}
       {...restProps}
     />
   );

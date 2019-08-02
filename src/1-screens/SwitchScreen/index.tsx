@@ -7,10 +7,11 @@ import RegisterScreen from '1-screens/RegisterScreen';
 import LoginScreen from '1-screens/LoginScreen';
 import MainScreen from '1-screens/MainScreen';
 
-interface StateProps {
-  readonly logged: boolean;
-  readonly useLoginForm: boolean;
-}
+const mapStateToProps = ({auth}: RootState) => ({
+  logged: auth.logged,
+  useLoginForm: auth.useLoginForm,
+})
+type StateProps = ReturnType<typeof mapStateToProps>;
 
 const SwitchScreen: React.FC<StateProps> = ({logged, useLoginForm}) => {
   return (
@@ -21,10 +22,5 @@ const SwitchScreen: React.FC<StateProps> = ({logged, useLoginForm}) => {
     </React.Fragment>
   );
 }
-
-const mapStateToProps = ({auth}: RootState /*, ownProps*/): StateProps => ({
-  logged: auth.logged,
-  useLoginForm: auth.useLoginForm,
-})
 
 export default connect(mapStateToProps)(SwitchScreen);

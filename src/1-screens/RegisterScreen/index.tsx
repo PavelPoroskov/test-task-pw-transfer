@@ -7,7 +7,7 @@ import { RootState } from '4-store/types'
 import RegisterForm from '5-components/RegisterForm'
 import LinkButton from '6-dsystem/LinkButton'
 
-const mapStateToProps = ({ auth }: RootState /*, ownProps*/) => ({
+const mapStateToProps = ({ auth }: RootState) => ({
   errorMessage: auth.errorMessage,
 })
 type StateProps = ReturnType<typeof mapStateToProps>;
@@ -26,11 +26,7 @@ const stylesRoot: React.CSSProperties = {
   alignItems: 'center',
 }
 const stylesFormContainer: React.CSSProperties = {
-//   position: 'absolute',
-//   top: '10%',
-    marginTop: '10%',
-    // display: 'flex',
-    // justifyContent: 'center',
+  marginTop: '10%',
 }
 const RegisterScreen: React.FC<DispatchProps & StateProps> = ({ submit, switchForm, errorMessage }) => {
   return (

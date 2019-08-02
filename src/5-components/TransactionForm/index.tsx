@@ -1,11 +1,11 @@
 import React from "react";
 import { withFormik, FormikProps, Form } from "formik";
 import { string as yup_string, number as yup_number, Schema } from "yup";
-
 import { Row, Col, Button } from "react-materialize";
+
 import TextInput from '6-dsystem/TextInput'
 import Autocomplete from '6-dsystem/Autocomplete/index'
-
+import {getError} from '9-helpers'
 
 interface FormValues {
   name: string,
@@ -17,10 +17,11 @@ interface OtherProps {
   recipients: {[key: string]: any},
   errorMessage: null | string
 }
+const toString = (value: number) => value === 0 ? '' : `${value}`;
+
 const TransactioFormView = (props: OtherProps & FormikProps<FormValues>) => {
   const { touched, errors, handleChange, handleBlur, cancel, values, 
     recipients, onChangeFilter, errorMessage } = props;
-  const bundle = { touched, errors, values, onChange: handleChange, onBlur: handleBlur };
   const options={ data: recipients };
   
   return (
@@ -32,7 +33,9 @@ const TransactioFormView = (props: OtherProps & FormikProps<FormValues>) => {
       </Row>
       <Row>
         <Col l={12} m={12} s={12}>
-          <Autocomplete label="Recipient" name="name" options={options} autoComplete="off" {...bundle} 
+          <Autocomplete label="Recipient" name="name" options={options} autoComplete="off" 
+            value={values["name"]}
+            error = {getError("name",errors,touched)}
             onChange={(e: any, value: string)=>{
               if (e) {
                 onChangeFilter(value);
@@ -41,16 +44,22 @@ const TransactioFormView = (props: OtherProps & FormikProps<FormValues>) => {
                 handleChange({target: {name:"name", value}});
               }
             }} 
+            onBlur={handleBlur}
           />
         </Col>
         <Col l={12} m={12} s={12}>
-          <TextInput type="number" min="0" label="Amount" name="amount"  autoComplete="off" {...bundle} />
+          <TextInput type="number" min="0" label="Amount" name="amount"  autoComplete="off" 
+            value={toString(values["amount"])}
+            error = {getError("amount",errors,touched)}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
         </Col>
       </Row>
       {errorMessage && (
         <Row>
           <Col l={12} m={12} s={12}>
-            <div className="center-align form-error">{errorMessage}</div>
+            <div className="center-align form__error">{errorMessage}</div>
           </Col>
         </Row>
         )}
@@ -59,7 +68,7 @@ const TransactioFormView = (props: OtherProps & FormikProps<FormValues>) => {
           <Button type="button" waves="light" onClick={cancel}>
             Cancel
           </Button>
-          <Button type="submit" waves="light" className="form-button">
+          <Button type="submit" waves="light" className="form__submit">
             Commit
           </Button>
         </Col>
@@ -94,12 +103,13 @@ export default withFormik<MyFormProps, FormValues>({
       }catch(err){
         errors[name] = err.errors[0];
       };
-     };
+    };
 
     testValue('name', yup_string().trim().required("recipient's name is required."), values.name, errors );
     testValue('amount', yup_number().moreThan(0, "must be greater than zero").max(props.balance).required("amount is required."), values.amount, errors );
 
     return errors;
   },
+  enableReinitialize: true,
   displayName: 'TransactioForm',
 })(TransactioFormView);

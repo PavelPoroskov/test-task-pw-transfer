@@ -1,8 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect, batch } from 'react-redux';
 import { Dispatch } from 'redux'
 
-import { newTransaction, choiceHistory } from '4-store/modules/transaction'
+import { newTransaction } from '4-store/modules/transaction'
+import { chooseHistory } from '4-store/modules/front'
 import { RootState } from '4-store/types'
 
 import LinkButton from '6-dsystem/LinkButton'
@@ -11,14 +12,19 @@ import UserInfoHeaderConnected from './UserInfoHeaderConnected'
 import TransactionFormConnected from './TransactionFormConnected'
 import HistoryConnected from './HistoryConnected'
 
-const mapStateToProps = ({ transaction }: RootState /*, ownProps*/) => ({
+const mapStateToProps = ({ transaction, front }: RootState) => ({
   editingTransaction: transaction.editing,
-  showHistory: transaction.showHistory,
+  showHistory: front.showHistory,
 })
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    beginTransaction: () => dispatch(newTransaction()),
-    choiceHistory: (showHistory: boolean) => dispatch(choiceHistory(showHistory))
+    beginTransaction: () => {
+      batch(() => {
+        dispatch(newTransaction());
+        dispatch(chooseHistory(false));
+      })
+    },
+    choiceHistory: (showHistory: boolean) => dispatch(chooseHistory(showHistory))
   }
 }
 type StateProps = ReturnType<typeof mapStateToProps>;

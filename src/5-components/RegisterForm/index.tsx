@@ -1,9 +1,10 @@
 import React from "react";
 import { withFormik, FormikProps, Form } from "formik";
 import { string as yup_string, Schema } from "yup";
-
 import { Row, Col, Button } from "react-materialize";
+
 import TextInput from '6-dsystem/TextInput'
+import {getError} from '9-helpers'
 
 interface FormValues {
   username: string,
@@ -17,7 +18,7 @@ interface OtherProps {
 
 const RegisterFormView = (props: FormikProps<FormValues> & OtherProps) => {
   const { touched, errors, handleChange, handleBlur, errorMessage } = props;
-  const bundle = { touched, errors, onChange: handleChange, onBlur: handleBlur }
+  const bundle = {onChange: handleChange, onBlur: handleBlur }
 
   return (
     <Form className="form">
@@ -28,34 +29,40 @@ const RegisterFormView = (props: FormikProps<FormValues> & OtherProps) => {
       </Row>
       <Row>
         <Col l={12} m={12} s={12}>
-          <TextInput label="Username" name="username" {...bundle} />
+          <TextInput label="Username" name="username" {...bundle}
+            error = {getError("username",errors,touched)}
+          />
         </Col>
-      {/* </Row>
-      <Row> */}
         <Col l={12} m={12} s={12}>
-          <TextInput label="Email" email name="email" {...bundle} />
-        </Col>
-      </Row>
-      <Row>
-        <Col l={12} m={12} s={12}>
-          <TextInput label="Password" password name="password" {...bundle} />
+          <TextInput label="Email" email name="email" {...bundle} 
+            error = {getError("email",errors,touched)}
+          />
         </Col>
       </Row>
       <Row>
         <Col l={12} m={12} s={12}>
-          <TextInput label="Confirm password" password name="passwordForConfirm" {...bundle} />
+          <TextInput label="Password" password name="password" {...bundle}
+            error = {getError("password",errors,touched)}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col l={12} m={12} s={12}>
+          <TextInput label="Confirm password" password name="passwordForConfirm" {...bundle}
+            error = {getError("passwordForConfirm",errors,touched)}
+          />
         </Col>
       </Row>
       {errorMessage && (
         <Row>
           <Col l={12} m={12} s={12}>
-            <div className="center-align form-error">{errorMessage}</div>
+            <div className="center-align form__error">{errorMessage}</div>
           </Col>
         </Row>
       )}
       <Row>
         <Col className="right">
-          <Button type="submit" waves="light" className="form-button">
+          <Button type="submit" waves="light" className="form__submit">
             Submit
           </Button>
         </Col>

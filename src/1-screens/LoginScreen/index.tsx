@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 }
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 
-const mapStateToProps = ({auth}: RootState /*, ownProps*/) => ({
+const mapStateToProps = ({auth}: RootState ) => ({
   errorMessage: auth.errorMessage,
 })
 type StateProps = ReturnType<typeof mapStateToProps>;
@@ -27,14 +27,10 @@ const stylesRoot: React.CSSProperties = {
   alignItems: 'center',
 }
 const stylesFormContainer: React.CSSProperties = {
-//   position: 'absolute',
-//   top: '10%',
     marginTop: '10%',
     display: 'flex',
     justifyContent: 'center',
 }
-//  
-//  className="col l4 m6 s12 offset-l4 offset-m3"
 const LoginScreen: React.FC<DispatchProps & StateProps> = ({submit, switchForm, errorMessage}) => {
   return (
     <div style={stylesRoot}>

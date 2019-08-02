@@ -1,9 +1,10 @@
 import React from "react";
 import { withFormik, FormikProps, Form } from "formik";
 import { string as yup_string, object as yup_object } from "yup";
-
 import { Row, Col, Button } from "react-materialize";
+
 import TextInput from '6-dsystem/TextInput'
+import {getError} from '9-helpers'
 
 interface OtherProps {
   errorMessage: null | string
@@ -14,7 +15,7 @@ interface FormValues {
 }
 const RegisterFormView = (props: FormikProps<FormValues> & OtherProps) => {
   const { touched, errors, handleChange, handleBlur, errorMessage } = props;
-  const bundle = {touched, errors, onChange: handleChange, onBlur: handleBlur}
+  const bundle = {onChange: handleChange, onBlur: handleBlur}
   return (
     <Form className="form">
       <Row>
@@ -24,24 +25,26 @@ const RegisterFormView = (props: FormikProps<FormValues> & OtherProps) => {
       </Row>
       <Row>
       <Col l={12} m={12} s={12}>
-        <TextInput label="Email" email name="email" autoComplete="off" {...bundle} />
+        <TextInput label="Email" email name="email" autoComplete="off" {...bundle} 
+          error = {getError("email",errors,touched)}
+        />
         </Col>
-      {/* </Row>
-      <Row> */}
       <Col l={12} m={12} s={12}>
-        <TextInput label="Password" password name="password" autoComplete="off" {...bundle} />
+        <TextInput label="Password" password name="password" autoComplete="off" {...bundle} 
+          error = {getError("password",errors,touched)}
+        />
         </Col>
       </Row>
       {errorMessage && (
         <Row>
           <Col l={12} m={12} s={12}>
-            <div className="center-align form-error">{errorMessage}</div>
+            <div className="center-align form__error">{errorMessage}</div>
           </Col>
         </Row>
         )}
       <Row>
         <Col className="right">
-          <Button type="submit" waves="light" className="form-button">
+          <Button type="submit" waves="light" className="form__submit">
             Submit
           </Button>
         </Col>

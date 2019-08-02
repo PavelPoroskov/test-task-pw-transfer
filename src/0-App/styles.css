@@ -34,11 +34,11 @@ input[type=text]:not(.invalid):focus:not([readonly]) ~ label {
   margin-top: 1em;
   margin-bottom: 1em;
 }
-.form-button {
+.form__submit {
   margin-left: 2em;
   margin-right: 0.75em;
 }
 
-.form-error {
+.form__error {
   color: red;
 }

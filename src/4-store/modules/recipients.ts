@@ -1,16 +1,15 @@
-import { AnyAction } from 'redux';
 import { ofType } from "redux-observable"
 import { switchMap, mergeMap, catchError } from "rxjs/operators";
 import { of, from  } from "rxjs";
 
-import { AppEpic } from "../types"
+import { ActionP, AppEpic } from "../types"
 
 const GET   = 'pw-transfer/recipients/GET';
 const GET_SUCCESS = 'pw-transfer/recipients/GET_SUCCESS';
 const GET_FAILURE = 'pw-transfer/recipients/GET_FAILURE';
+const RESET = 'pw-transfer/recipients/RESET';
 
 export interface RecipientsState {
-  // list: Recipient[];
   list: {[key: string]: any},
   filter: string,
 };
@@ -20,7 +19,7 @@ const initState: RecipientsState = {
   filter: '',
 }
 // Reducer
-export default function reducer(state: RecipientsState = initState, action: AnyAction ): RecipientsState {
+export default function reducer(state: RecipientsState = initState, action: ActionP ): RecipientsState {
   switch (action.type) {
     case GET:
       return {
@@ -37,6 +36,8 @@ export default function reducer(state: RecipientsState = initState, action: AnyA
       }
     case GET_FAILURE:
       return state
+    case RESET:
+      return initState
     default: 
       return state;
   }
@@ -46,6 +47,7 @@ export default function reducer(state: RecipientsState = initState, action: AnyA
 export const requestRecipients = (filter: string) => ({ type: GET, payload: filter });
 const requestRecipientsSuccess = (payload: any[]) => ({ type: GET_SUCCESS, payload });
 const requestRecipientsFailure = (error: any) => ({ type: GET_FAILURE, payload: error.message })
+export const resetRecipients = () => ({ type: RESET });
 
 // Side Effects
 export const recipientsEpic: AppEpic = (action$, state$, {client}) => action$.pipe(

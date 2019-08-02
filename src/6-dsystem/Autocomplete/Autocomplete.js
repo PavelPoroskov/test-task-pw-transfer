@@ -12,7 +12,6 @@ class Autocomplete extends Component {
     this.id = props.id || `autocomplete-input-${idgen()}`;
 
     this.state = {
-      value: props.value || '',
       itemSelected: false,
       prevData: props.options.data,
     };
@@ -22,10 +21,12 @@ class Autocomplete extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
+    const res = {}
     if (props.options.data !== state.prevData) {
-      return {
-        prevData: props.options.data,
-      };
+      res.prevData = props.options.data;
+    }
+    if (0 < Object.keys(res).length) {
+      return res;
     }
     return null;
   }  
@@ -39,6 +40,12 @@ class Autocomplete extends Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
+    const { value } = this.props;
+
+    if (value !== prevProps.value && typeof M !== 'undefined') {
+      window.M.updateTextFields();
+    }
+
     if (this.state.prevData !== prevState.prevData) {
       this.instance.updateData(this.state.prevData);
       this.instance.open();
@@ -82,6 +89,7 @@ class Autocomplete extends Component {
       // these are mentioned here only to prevent from getting into ...props
       validate,
       value,
+      defaultValue,
       onChange,
       options,
       ...other
@@ -103,11 +111,10 @@ class Autocomplete extends Component {
       placeholder,
       type: "text",
       id: this.id,
-      // defaultValue,
+      defaultValue,
       disabled,
       onChange: this._onChange,
-      value: this.state.value,
-
+      value,
       ...other
     };
 

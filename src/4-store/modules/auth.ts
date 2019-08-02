@@ -1,11 +1,14 @@
-import { AnyAction } from 'redux';
 import { ofType } from "redux-observable"
 import { switchMap, mergeMap, catchError } from "rxjs/operators";
 import { of, from  } from "rxjs";
 
 import { RegisterUserInput, LoginInput } from '8-remote/client/index'
-import { requestUserInfo } from './userinfo'
-import { AppEpic } from "../types"
+import { requestUserInfo, resetUserInfo } from './userinfo'
+import { resetHistory } from './history'
+import { resetFront } from './front'
+import { resetRecipients } from './recipients'
+import { resetTransaction } from './transaction'
+import { ActionP, AppEpic } from "../types"
 
 const REGISTER = 'pw-transfer/auth/REGISTER';
 const REGISTER_SUCCESS = 'pw-transfer/auth/REGISTER_SUCCESS';
@@ -28,7 +31,7 @@ const initState: AuthState = {
   errorMessage: null,
 }
 
-export default function reducer(state: AuthState = initState, action: AnyAction): AuthState {
+export default function reducer(state: AuthState = initState, action: ActionP): AuthState {
   switch (action.type) {
     case CHOICE_USE_LOGIN_FORM:
       return {
@@ -103,7 +106,17 @@ export const loginEpic: AppEpic = (action$, state$, {client}) => action$.pipe(
   )
 );
 
-// export const logoutEpic: AppEpic = (action$, state$, {client}) => action$.pipe(
-//   ofType(LOGOUT),
-//   map((response) => of(clearUserInfo())),
-// );
+export const logoutEpic: AppEpic = (action$, state$, {client}) => action$.pipe(
+  ofType(LOGIN),
+  switchMap(() =>
+    from(client.logout()).pipe(
+      mergeMap(response => of(
+        resetUserInfo(),
+        resetHistory(),
+        resetFront(),
+        resetTransaction(),
+        resetRecipients(),
+      ))
+    )
+  )
+);
