@@ -51,7 +51,7 @@ const TransactioFormView = (props: OtherProps & FormikProps<FormValues>) => {
           <TextInput type="number" min="0" label="Amount" name="amount"  autoComplete="off" 
             value={toString(values["amount"])}
             error = {getError("amount",errors,touched)}
-            onChange={handleChange}
+            onChange={(e: any) => handleChange({target: {name:"amount", value: e.target.value || 0}})}
             onBlur={handleBlur}
           />
         </Col>
