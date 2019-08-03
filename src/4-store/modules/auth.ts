@@ -1,11 +1,11 @@
 import { ofType } from "redux-observable"
 import { switchMap, mergeMap, catchError } from "rxjs/operators";
-import { of, from  } from "rxjs";
+import { of, from } from "rxjs";
 
 import { RegisterUserInput, LoginInput } from '8-remote/client/index'
 import { requestUserInfo, resetUserInfo } from './userinfo'
-import { resetHistory } from './history'
-import { resetFront } from './front'
+import { requestHistory, resetHistory } from './history'
+import { chooseHistory, chooseWelcome, resetFront } from './front'
 import { resetRecipients } from './recipients'
 import { resetTransaction } from './transaction'
 import { ActionP, AppEpic } from "../types"
@@ -84,10 +84,12 @@ export const registerEpic: AppEpic = (action$, state$, {client}) => action$.pipe
   ofType(REGISTER),
   switchMap(({payload}) =>
     from(client.register(payload)).pipe(
-      mergeMap(response => of(
+      mergeMap(response => [
         requestRegisterSuccess(), 
-        requestUserInfo()
-      )),
+        requestUserInfo(),
+        requestHistory(),
+        chooseWelcome(),
+      ]),
       catchError(error => of(requestRegisterFailure(error)))
     )
   )
@@ -97,10 +99,12 @@ export const loginEpic: AppEpic = (action$, state$, {client}) => action$.pipe(
   ofType(LOGIN),
   switchMap(({payload}) =>
     from(client.login(payload)).pipe(
-      mergeMap(response => of(
+      mergeMap(response => [
         requestLoginSuccess(),
-        requestUserInfo()
-      )),
+        requestUserInfo(),
+        requestHistory(),
+        chooseHistory(true),
+      ]),
       catchError(error => of(requestLoginFailure(error)))
     )
   )
@@ -110,13 +114,13 @@ export const logoutEpic: AppEpic = (action$, state$, {client}) => action$.pipe(
   ofType(LOGIN),
   switchMap(() =>
     from(client.logout()).pipe(
-      mergeMap(response => of(
+      mergeMap(response => [
         resetUserInfo(),
         resetHistory(),
         resetFront(),
         resetTransaction(),
         resetRecipients(),
-      ))
+      ])
     )
   )
 );

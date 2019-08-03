@@ -3,7 +3,6 @@ import { of, from  } from "rxjs";
 import { ofType } from "redux-observable"
 
 import {UserInfo} from '8-remote/client';
-import {requestHistory} from './history'
 import { ActionP, AppEpic } from "../types"
 
 const GET   = 'pw-transfer/userinfor/GET';
@@ -44,10 +43,7 @@ export const userInfoEpic: AppEpic = (action$, state$, {client}) => action$.pipe
   ofType(GET),
   switchMap(({payload}) =>
     from(client.getLoggedUserInfo()).pipe(
-      mergeMap(response => of(
-        requestUserInfoSuccess(response), 
-        requestHistory()
-      )),
+      mergeMap(response => of(requestUserInfoSuccess(response))),
       catchError(error => of(requestUserInfoFailure(error)))
     )
   )

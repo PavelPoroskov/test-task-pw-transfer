@@ -4,6 +4,7 @@ import { of, from  } from "rxjs";
 
 import {CreateTransactionInput} from '8-remote/client';
 import { requestUserInfo} from './userinfo'
+import { requestHistory} from './history'
 import { ActionP, AppEpic } from "../types"
 
 const NEW = 'pw-transfer/transaction/NEW';
@@ -71,10 +72,11 @@ export const commitTransactionEpic: AppEpic = (action$, state$, {client}) => act
   ofType(COMMIT),
   switchMap(({payload}) =>
     from(client.createTransaction(payload)).pipe(
-      mergeMap(response => of(
+      mergeMap(response => [
         requestCommitSuccess(),
-        requestUserInfo()
-      )),
+        requestUserInfo(),
+        requestHistory(),
+      ]),
       catchError(error => of(requestCommitFailure(error)))
     )
   )
