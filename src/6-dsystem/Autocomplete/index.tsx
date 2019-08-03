@@ -1,10 +1,10 @@
 import React from 'react';
 
-import MAutocomplete from "./Autocomplete";
+import MAutocomplete from './Autocomplete';
 
-const Autocomplete: React.FC<any> = ({error, ...restProps}) => {
+const Autocomplete: React.FC<any> = ({ error, ...restProps }) => {
   return (
-    <MAutocomplete 
+    <MAutocomplete
       l={12}
       s={12}
       m={12}
@@ -13,6 +13,6 @@ const Autocomplete: React.FC<any> = ({error, ...restProps}) => {
       {...restProps}
     />
   );
-}
+};
 
 export default Autocomplete;

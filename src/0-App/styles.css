@@ -1,4 +1,5 @@
-.link-button, .link-button:active {
+.link-button,
+.link-button:active {
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -22,7 +23,7 @@ input.input-field  {
   background-color: transparent !important;
 } */
 
-input[type=text]:not(.invalid):focus:not([readonly]) ~ label {
+input[type='text']:not(.invalid):focus:not([readonly]) ~ label {
   color: #26a69a;
 }
 

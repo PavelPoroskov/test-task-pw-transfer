@@ -1,9 +1,9 @@
-import React from "react";
-import { Col, Row } from "react-materialize";
+import React from 'react';
+import { Col, Row } from 'react-materialize';
 
 const stylesRoot: React.CSSProperties = {
   marginBottom: 0
-}
+};
 
 const RootLayout: React.FC = ({ children }) => {
   return (
@@ -12,7 +12,7 @@ const RootLayout: React.FC = ({ children }) => {
         {children}
       </Col>
     </Row>
-  )
-}
+  );
+};
 
 export default RootLayout;

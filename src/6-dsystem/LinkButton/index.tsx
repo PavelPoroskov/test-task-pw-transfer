@@ -7,9 +7,14 @@ interface Props {
 }
 const styleNew: React.CSSProperties = {
   lineHeight: '160%'
-}
-const LinkButton: React.FC<Props> = ({onClick,children,dataname,dataamount}) => {
-  const extraProps: {[key: string]: any} = {};
+};
+const LinkButton: React.FC<Props> = ({
+  onClick,
+  children,
+  dataname,
+  dataamount
+}) => {
+  const extraProps: { [key: string]: any } = {};
   if (dataname) {
     extraProps['data-name'] = dataname;
   }
@@ -17,10 +22,16 @@ const LinkButton: React.FC<Props> = ({onClick,children,dataname,dataamount}) => 
     extraProps['data-amount'] = dataamount;
   }
   return (
-    <button type="button" className="link-button" onClick={onClick} style={styleNew}
+    <button
+      type="button"
+      className="link-button"
+      onClick={onClick}
+      style={styleNew}
       {...extraProps}
-    >{children}</button>
+    >
+      {children}
+    </button>
   );
-}
+};
 
 export default LinkButton;

@@ -8,12 +8,12 @@ import idgen from './idgen';
 class Autocomplete extends Component {
   constructor(props) {
     super(props);
-    
+
     this.id = props.id || `autocomplete-input-${idgen()}`;
 
     this.state = {
       itemSelected: false,
-      prevData: props.options.data,
+      prevData: props.options.data
     };
 
     this._onChange = this._onChange.bind(this);
@@ -21,7 +21,7 @@ class Autocomplete extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const res = {}
+    const res = {};
     if (props.options.data !== state.prevData) {
       res.prevData = props.options.data;
     }
@@ -29,14 +29,14 @@ class Autocomplete extends Component {
       return res;
     }
     return null;
-  }  
+  }
   componentDidMount() {
     if (typeof M !== 'undefined') {
       const { options } = this.props;
       this.instance = window.M.Autocomplete.init(this.inputRef, {
         onAutocomplete: this._onAutocomplete,
-        ...options,
-      })
+        ...options
+      });
     }
   }
   componentDidUpdate(prevProps, prevState) {
@@ -109,7 +109,7 @@ class Autocomplete extends Component {
 
     const inputProps = {
       placeholder,
-      type: "text",
+      type: 'text',
       id: this.id,
       defaultValue,
       disabled,
@@ -149,7 +149,7 @@ class Autocomplete extends Component {
 
       return React.cloneElement(icon, { className: 'prefix' });
     };
-  
+
     return (
       <div className={wrapperClasses}>
         {renderIcon()}
@@ -157,7 +157,7 @@ class Autocomplete extends Component {
           ref={el => {
             this.inputRef = el;
           }}
-          className={cx("autocomplete", { validate }, inputClassName)}
+          className={cx('autocomplete', { validate }, inputClassName)}
           {...inputProps}
         />
         {renderLabel()}

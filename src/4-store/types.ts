@@ -1,12 +1,12 @@
-import { Action } from "redux";
+import { Action } from 'redux';
 import { Epic } from 'redux-observable';
-import {ClientInteface} from '8-remote/client/index'
-import {AuthState} from './modules/auth';
-import {UserInfoState} from './modules/userinfo';
-import {HistoryState} from './modules/history';
-import {TransactionState} from './modules/transaction';
-import {RecipientsState} from './modules/recipients';
-import {FrontState} from './modules/front';
+import { ClientInteface } from '8-remote/client/index';
+import { AuthState } from './modules/auth';
+import { UserInfoState } from './modules/userinfo';
+import { HistoryState } from './modules/history';
+import { TransactionState } from './modules/transaction';
+import { RecipientsState } from './modules/recipients';
+import { FrontState } from './modules/front';
 
 export interface RootState {
   auth: AuthState;
@@ -22,7 +22,7 @@ export interface EpicDependencies {
 }
 
 export interface ActionP extends Action {
-  payload?: any
+  payload?: any;
 }
 
-export type AppEpic = Epic<ActionP,ActionP,RootState,EpicDependencies>;
+export type AppEpic = Epic<ActionP, ActionP, RootState, EpicDependencies>;

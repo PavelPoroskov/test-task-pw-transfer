@@ -11,9 +11,13 @@ const styles: React.CSSProperties = {
   padding: '1em 1em',
   backgroundColor: 'lightyellow',
   justifyContent: 'space-between', //? compatibility
-  fontSize: '2em',
+  fontSize: '2em'
 };
-const UserInfoHeader: React.FC<UserInfoHeaderProps> = ({name, email, balance}) => {
+const UserInfoHeader: React.FC<UserInfoHeaderProps> = ({
+  name,
+  email,
+  balance
+}) => {
   return (
     <div style={styles}>
       <div>{name}</div>
@@ -21,6 +25,6 @@ const UserInfoHeader: React.FC<UserInfoHeaderProps> = ({name, email, balance}) =
       <div>{balance}</div>
     </div>
   );
-}
+};
 
 export default UserInfoHeader;

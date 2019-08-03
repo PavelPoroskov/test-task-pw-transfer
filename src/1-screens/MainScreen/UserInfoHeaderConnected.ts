@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 
-import {RootState} from '4-store/types'
-import UserInfoHeader from '5-components/UserInfoHeader'
+import { RootState } from '4-store/types';
+import UserInfoHeader from '5-components/UserInfoHeader';
 
-const mapStateToProps = ({userinfo}: RootState ) => ({
+const mapStateToProps = ({ userinfo }: RootState) => ({
   name: userinfo.name,
   email: userinfo.email,
-  balance: userinfo.balance,
-})
+  balance: userinfo.balance
+});
 
 export default connect(mapStateToProps)(UserInfoHeader);

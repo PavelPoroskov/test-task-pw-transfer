@@ -22,7 +22,8 @@ class TextInput extends Component {
   componentDidMount() {
     if (typeof M !== undefined) {
       // eslint-disable-next-line react/prop-types
-      this.props['data-length'] && window.M.CharacterCounter.init(this.inputRef);
+      this.props['data-length'] &&
+        window.M.CharacterCounter.init(this.inputRef);
       window.M.updateTextFields();
     }
   }

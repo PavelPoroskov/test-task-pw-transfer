@@ -1,10 +1,10 @@
 import React from 'react';
 
-import MTextInput from "./TextInput";
+import MTextInput from './TextInput';
 
-const TextInput: React.FC<any> = ({error, ...restProps}) => {
+const TextInput: React.FC<any> = ({ error, ...restProps }) => {
   return (
-    <MTextInput 
+    <MTextInput
       l={12}
       s={12}
       m={12}
@@ -13,6 +13,6 @@ const TextInput: React.FC<any> = ({error, ...restProps}) => {
       {...restProps}
     />
   );
-}
+};
 
 export default TextInput;
