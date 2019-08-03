@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 
 interface UserInfoHeaderProps {
   readonly name: string;
@@ -18,11 +18,18 @@ const UserInfoHeader: React.FC<UserInfoHeaderProps> = ({
   email,
   balance
 }) => {
+  const refSwitch = useRef(true);
+
+  const classAnimation = refSwitch.current ? 'balance-odd' : 'balance-even';
+  refSwitch.current = !refSwitch.current;
+
   return (
     <div style={styles}>
       <div>{name}</div>
       <div>{email}</div>
-      <div>{balance}</div>
+      <div>
+        <div className={classAnimation}>{balance}</div>
+      </div>
     </div>
   );
 };

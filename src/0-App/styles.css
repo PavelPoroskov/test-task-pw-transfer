@@ -23,7 +23,7 @@ input.input-field  {
   background-color: transparent !important;
 } */
 
-input[type='text']:not(.invalid):focus:not([readonly]) ~ label {
+input[type="text"]:not(.invalid):focus:not([readonly]) ~ label {
   color: #26a69a;
 }
 
@@ -42,4 +42,40 @@ input[type='text']:not(.invalid):focus:not([readonly]) ~ label {
 
 .form__error {
   color: red;
+}
+
+@keyframes scale-odd {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.balance-odd {
+  animation-name: scale-odd;
+  animation-duration: .3s;
+  animation-timing-function: cubic-bezier(0.53, 0.01, 0.36, 1.63);
+  animation-delay: 0s;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+}
+
+@keyframes scale-even {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.balance-even {
+  animation-name: scale-even;
+  animation-duration: .3s;
+  animation-timing-function: cubic-bezier(0.53, 0.01, 0.36, 1.63);
+  animation-delay: 0s;
+  animation-iteration-count: 1;
+  animation-direction: normal;
 }
