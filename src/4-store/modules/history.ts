@@ -11,10 +11,10 @@ const CHANGE_SORTING = 'pw-transfer/history/CHANGE_SORTING';
 const RESET = 'pw-transfer/history/RESET';
 
 interface SortField {
-  name: string,
-  direction: number, // 1 -- forward, -1 -- backward
+  name: string;
+  direction: number; // 1 -- forward, -1 -- backward
 }
-type Sorting = SortField[]
+type Sorting = SortField[];
 
 export interface HistoryState {
   list: Transaction[];
@@ -30,40 +30,38 @@ const initState: HistoryState = {
   filter: {
     username: null,
     date: null,
-    amount: null,
+    amount: null
   },
-  sorting: [
-    { name: 'date', direction: -1 },
-  ]
+  sorting: [{ name: 'date', direction: -1 }]
 };
 
 const updateSorting = (sorting: Sorting, field: string) => {
   const res: Sorting = [];
   let fined = false;
-  for (let i=0; i < sorting.length; i+=1) {
+  for (let i = 0; i < sorting.length; i += 1) {
     const sortField = sorting[i];
     if (sortField.name === field) {
       if (sortField.direction === 1) {
         res.push({
           ...sortField,
-          direction: -1,
-        })
-      } 
+          direction: -1
+        });
+      }
       fined = true;
     } else {
-      res.push(sortField)
+      res.push(sortField);
     }
-  };
+  }
 
   if (!fined) {
     res.push({
       name: field,
-      direction: 1,
-    })
+      direction: 1
+    });
   }
 
   return res;
-}
+};
 
 // Reducer
 export default function reducer(
@@ -83,7 +81,7 @@ export default function reducer(
     case CHANGE_SORTING:
       return {
         ...state,
-        sorting: updateSorting( state.sorting, action.payload )
+        sorting: updateSorting(state.sorting, action.payload)
       };
     case RESET:
       return initState;
@@ -104,7 +102,10 @@ const requestHistoryFailure = (payload: any) => ({
 });
 export const resetHistory = () => ({ type: RESET });
 
-export const changeSorting = (field: string) => ({ type: CHANGE_SORTING, payload: field });
+export const changeSorting = (field: string) => ({
+  type: CHANGE_SORTING,
+  payload: field
+});
 
 export const historyEpic: AppEpic = (action$, state$, { client }) =>
   action$.pipe(

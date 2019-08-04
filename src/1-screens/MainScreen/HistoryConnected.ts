@@ -11,7 +11,7 @@ import History from '5-components/History';
 
 const mapStateToProps = (state: RootState) => ({
   list: sortedHistory(state),
-  columnsSettings: columnsSettings(state),
+  columnsSettings: columnsSettings(state)
 });
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
@@ -21,9 +21,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
         dispatch(chooseHistory(false));
       });
     },
-    updateSoringDate: () => dispatch(changeSorting("date")),
-    updateSoringCorrespondent: () => dispatch(changeSorting("username")),
-    updateSoringAmount: () => dispatch(changeSorting("amount")),
+    updateSoringDate: () => dispatch(changeSorting('date')),
+    updateSoringCorrespondent: () => dispatch(changeSorting('username')),
+    updateSoringAmount: () => dispatch(changeSorting('amount'))
   };
 };
 export default connect(

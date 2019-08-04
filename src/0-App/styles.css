@@ -44,7 +44,7 @@ input:-webkit-autofill:active {
   }
 }
 
-input[type="text"]:not(.invalid):focus:not([readonly]) ~ label {
+input[type='text']:not(.invalid):focus:not([readonly]) ~ label {
   color: #26a69a;
 }
 

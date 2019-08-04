@@ -1,4 +1,3 @@
-
 export function getError(
   name: string,
   errors: { [name: string]: string | undefined },
