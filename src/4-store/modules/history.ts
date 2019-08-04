@@ -1,9 +1,8 @@
-import { ofType } from 'redux-observable';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { of, from } from 'rxjs';
 
 import { Transaction } from '8-remote/client';
-import { ActionP, AppEpic } from '../types';
+import { ActionP, AppEpic, ofType } from '../types';
 
 const GET = 'pw-transfer/history/GET';
 const GET_SUCCESS = 'pw-transfer/history/GET_SUCCESS';

@@ -1,5 +1,5 @@
 import { ofType } from 'redux-observable';
-import { switchMap, mergeMap, catchError } from 'rxjs/operators';
+import { switchMap, map, catchError } from 'rxjs/operators';
 import { of, from } from 'rxjs';
 
 import { ActionP, AppEpic } from '../types';
@@ -70,7 +70,7 @@ export const recipientsEpic: AppEpic = (action$, state$, { client }) =>
     ofType(GET),
     switchMap(({ payload }) =>
       from(client.getRecipients(payload)).pipe(
-        mergeMap(response => of(requestRecipientsSuccess(response))),
+        map(response => requestRecipientsSuccess(response)),
         catchError(error => of(requestRecipientsFailure(error)))
       )
     )

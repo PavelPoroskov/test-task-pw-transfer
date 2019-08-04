@@ -1,5 +1,6 @@
+import { batchActions } from 'redux-batched-actions';
 import { ofType } from 'redux-observable';
-import { switchMap, mergeMap, catchError } from 'rxjs/operators';
+import { switchMap, map, catchError } from 'rxjs/operators';
 import { of, from } from 'rxjs';
 
 import { CreateTransactionInput } from '8-remote/client';
@@ -85,11 +86,11 @@ export const commitTransactionEpic: AppEpic = (action$, state$, { client }) =>
     ofType(COMMIT),
     switchMap(({ payload }) =>
       from(client.createTransaction(payload)).pipe(
-        mergeMap(response => [
+        map(() => batchActions([
           requestCommitSuccess(),
           requestUserInfo(),
           requestHistory()
-        ]),
+        ])),
         catchError(error => of(requestCommitFailure(error)))
       )
     )

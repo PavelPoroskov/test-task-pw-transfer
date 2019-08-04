@@ -1,5 +1,6 @@
+import { batchActions } from 'redux-batched-actions';
 import { ofType } from 'redux-observable';
-import { switchMap, mergeMap, catchError } from 'rxjs/operators';
+import { switchMap, catchError, map } from 'rxjs/operators';
 import { of, from } from 'rxjs';
 
 import { RegisterUserInput, LoginInput } from '8-remote/client/index';
@@ -103,12 +104,12 @@ export const registerEpic: AppEpic = (action$, state$, { client }) =>
     ofType(REGISTER),
     switchMap(({ payload }) =>
       from(client.register(payload)).pipe(
-        mergeMap(response => [
+        map(() => batchActions([
           requestRegisterSuccess(),
           requestUserInfo(),
           requestHistory(),
           chooseWelcome()
-        ]),
+        ])),
         catchError(error => of(requestRegisterFailure(error)))
       )
     )
@@ -119,12 +120,12 @@ export const loginEpic: AppEpic = (action$, state$, { client }) =>
     ofType(LOGIN),
     switchMap(({ payload }) =>
       from(client.login(payload)).pipe(
-        mergeMap(response => [
+        map(() => batchActions([
           requestLoginSuccess(),
           requestUserInfo(),
           requestHistory(),
           chooseHistory(true)
-        ]),
+        ])),
         catchError(error => of(requestLoginFailure(error)))
       )
     )
@@ -135,13 +136,13 @@ export const logoutEpic: AppEpic = (action$, state$, { client }) =>
     ofType(LOGIN),
     switchMap(() =>
       from(client.logout()).pipe(
-        mergeMap(response => [
+        map(() => batchActions([
           resetUserInfo(),
           resetHistory(),
           resetFront(),
           resetTransaction(),
           resetRecipients()
-        ])
+        ])),
       )
     )
   );

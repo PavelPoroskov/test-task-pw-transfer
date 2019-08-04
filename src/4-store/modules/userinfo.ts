@@ -1,9 +1,8 @@
-import { switchMap, mergeMap, catchError } from 'rxjs/operators';
+import { switchMap, map, catchError } from 'rxjs/operators';
 import { of, from } from 'rxjs';
-import { ofType } from 'redux-observable';
 
 import { UserInfo } from '8-remote/client';
-import { ActionP, AppEpic } from '../types';
+import { ActionP, AppEpic, ofType } from '../types';
 
 const GET = 'pw-transfer/userinfor/GET';
 const GET_SUCCESS = 'pw-transfer/userinfor/GET_SUCCESS';
@@ -53,7 +52,7 @@ export const userInfoEpic: AppEpic = (action$, state$, { client }) =>
     ofType(GET),
     switchMap(({ payload }) =>
       from(client.getLoggedUserInfo()).pipe(
-        mergeMap(response => of(requestUserInfoSuccess(response))),
+        map(response => requestUserInfoSuccess(response)),
         catchError(error => of(requestUserInfoFailure(error)))
       )
     )
