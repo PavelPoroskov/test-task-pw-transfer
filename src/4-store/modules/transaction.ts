@@ -86,11 +86,13 @@ export const commitTransactionEpic: AppEpic = (action$, state$, { client }) =>
     ofType(COMMIT),
     switchMap(({ payload }) =>
       from(client.createTransaction(payload)).pipe(
-        map(() => batchActions([
-          requestCommitSuccess(),
-          requestUserInfo(),
-          requestHistory()
-        ])),
+        map(() =>
+          batchActions([
+            requestCommitSuccess(),
+            requestUserInfo(),
+            requestHistory()
+          ])
+        ),
         catchError(error => of(requestCommitFailure(error)))
       )
     )

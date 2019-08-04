@@ -104,12 +104,14 @@ export const registerEpic: AppEpic = (action$, state$, { client }) =>
     ofType(REGISTER),
     switchMap(({ payload }) =>
       from(client.register(payload)).pipe(
-        map(() => batchActions([
-          requestRegisterSuccess(),
-          requestUserInfo(),
-          requestHistory(),
-          chooseWelcome()
-        ])),
+        map(() =>
+          batchActions([
+            requestRegisterSuccess(),
+            requestUserInfo(),
+            requestHistory(),
+            chooseWelcome()
+          ])
+        ),
         catchError(error => of(requestRegisterFailure(error)))
       )
     )
@@ -120,12 +122,14 @@ export const loginEpic: AppEpic = (action$, state$, { client }) =>
     ofType(LOGIN),
     switchMap(({ payload }) =>
       from(client.login(payload)).pipe(
-        map(() => batchActions([
-          requestLoginSuccess(),
-          requestUserInfo(),
-          requestHistory(),
-          chooseHistory(true)
-        ])),
+        map(() =>
+          batchActions([
+            requestLoginSuccess(),
+            requestUserInfo(),
+            requestHistory(),
+            chooseHistory(true)
+          ])
+        ),
         catchError(error => of(requestLoginFailure(error)))
       )
     )
@@ -136,13 +140,15 @@ export const logoutEpic: AppEpic = (action$, state$, { client }) =>
     ofType(LOGIN),
     switchMap(() =>
       from(client.logout()).pipe(
-        map(() => batchActions([
-          resetUserInfo(),
-          resetHistory(),
-          resetFront(),
-          resetTransaction(),
-          resetRecipients()
-        ])),
+        map(() =>
+          batchActions([
+            resetUserInfo(),
+            resetHistory(),
+            resetFront(),
+            resetTransaction(),
+            resetRecipients()
+          ])
+        )
       )
     )
   );

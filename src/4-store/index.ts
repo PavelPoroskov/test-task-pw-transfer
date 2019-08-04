@@ -38,7 +38,10 @@ const epicMiddleware = createEpicMiddleware<
 >({ dependencies: { client } });
 
 function configureStore() {
-  const store = createStore( enableBatching(rootReducer), applyMiddleware(epicMiddleware));
+  const store = createStore(
+    enableBatching(rootReducer),
+    applyMiddleware(epicMiddleware)
+  );
 
   epicMiddleware.run(rootEpic);
 

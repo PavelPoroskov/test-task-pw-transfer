@@ -35,22 +35,23 @@ type BatchAction<
   ActionType extends string = BatchActionType
 > = Action<ActionType> & {
   payload: T[];
-  meta: { batch: true }
-}
+  meta: { batch: true };
+};
 
-const isBatch = <T extends Action>(action: T | BatchAction<T>): action is BatchAction<T> =>
-  (action as BatchAction<T>).meta && (action as BatchAction<T>).meta.batch
+const isBatch = <T extends Action>(
+  action: T | BatchAction<T>
+): action is BatchAction<T> =>
+  (action as BatchAction<T>).meta && (action as BatchAction<T>).meta.batch;
 
-export const ofType = <T extends Action>(type: T["type"]) => (
+export const ofType = <T extends Action>(type: T['type']) =>
   mergeMap((action: T) => {
-    if (action.type === type){
+    if (action.type === type) {
       return of(action);
     } else if (isBatch(action)) {
-      return from(action.payload.filter((action) => action.type === type));
+      return from(action.payload.filter(action => action.type === type));
     }
 
     return empty();
-  })
-);
+  });
 
 export type AppEpic = Epic<ActionP, ActionP, RootState, EpicDependencies>;

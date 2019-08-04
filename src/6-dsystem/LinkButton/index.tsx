@@ -6,11 +6,7 @@ interface Props {
 const styleNew: React.CSSProperties = {
   lineHeight: '160%'
 };
-const LinkButton: React.FC<Props> = ({
-  onClick,
-  children,
-  ...extraProps
-}) => {
+const LinkButton: React.FC<Props> = ({ onClick, children, ...extraProps }) => {
   return (
     <button
       type="button"
