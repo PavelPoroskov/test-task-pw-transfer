@@ -48,8 +48,8 @@ const History: React.FC<HistoryProps> = ({ list, copyTransaction }) => {
               <td className="right-align">{item.balance}</td>
               <td className="center-align">
                 <LinkButton
-                  dataname={item.username}
-                  dataamount={`${Math.max(item.amount, -item.amount)}`}
+                  data-name={item.username}
+                  data-amount={`${Math.max(item.amount, -item.amount)}`}
                   onClick={onClick}
                 >
                   Copy

@@ -2,8 +2,6 @@ import React from 'react';
 
 interface Props {
   readonly onClick: (e: any) => void;
-  readonly dataname?: string;
-  readonly dataamount?: string;
 }
 const styleNew: React.CSSProperties = {
   lineHeight: '160%'
@@ -11,16 +9,8 @@ const styleNew: React.CSSProperties = {
 const LinkButton: React.FC<Props> = ({
   onClick,
   children,
-  dataname,
-  dataamount
+  ...extraProps
 }) => {
-  const extraProps: { [key: string]: any } = {};
-  if (dataname) {
-    extraProps['data-name'] = dataname;
-  }
-  if (dataamount) {
-    extraProps['data-amount'] = dataamount;
-  }
   return (
     <button
       type="button"
