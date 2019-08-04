@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table, Row, Col } from 'react-materialize';
 import LinkButton from '6-dsystem/LinkButton';
+import SortedColumn from '5-components/SortedCollumn';
 
 export interface Transaction {
   id: number;
@@ -11,10 +12,15 @@ export interface Transaction {
 }
 export interface HistoryProps {
   list: Transaction[];
+  columnsSettings: {[name: string]: { direction: null | number, order: null | number}},
   copyTransaction: (input: { name: string; amount: number }) => void;
+  updateSoringDate: () => void;
+  updateSoringCorrespondent: () => void;
+  updateSoringAmount: () => void;
 }
 
-const History: React.FC<HistoryProps> = ({ list, copyTransaction }) => {
+const History: React.FC<HistoryProps> = ({ list, copyTransaction, 
+  updateSoringDate, updateSoringCorrespondent, updateSoringAmount, columnsSettings }) => {
   const onClick = (e: any) => {
     const ds = e.target.dataset;
     copyTransaction({
@@ -32,9 +38,9 @@ const History: React.FC<HistoryProps> = ({ list, copyTransaction }) => {
       <Table className="highlight">
         <thead>
           <tr>
-            <th>Date/Time</th>
-            <th>Correspondent</th>
-            <th className="right-align">Amount</th>
+            <th><SortedColumn title="Date/Time" onClick={updateSoringDate} settings={columnsSettings['date']}/></th>
+            <th><SortedColumn title="Correspondent" onClick={updateSoringCorrespondent} settings={columnsSettings['username']}/></th>
+            <th><SortedColumn title="Amount" onClick={updateSoringAmount} settings={columnsSettings['amount']}/></th>
             <th className="right-align">Balance</th>
             <th className="center-align">Action</th>
           </tr>

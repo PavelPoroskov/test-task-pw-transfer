@@ -22,8 +22,29 @@
 input.input-field  {
   background-color: transparent !important;
 } */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-animation: autofill 0s forwards;
+  animation: autofill 0s forwards;
+}
 
-input[type='text']:not(.invalid):focus:not([readonly]) ~ label {
+@keyframes autofill {
+  100% {
+    background: transparent;
+    color: inherit;
+  }
+}
+
+@-webkit-keyframes autofill {
+  100% {
+    background: transparent;
+    color: inherit;
+  }
+}
+
+input[type="text"]:not(.invalid):focus:not([readonly]) ~ label {
   color: #26a69a;
 }
 
