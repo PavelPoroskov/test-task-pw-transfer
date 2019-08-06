@@ -54,6 +54,7 @@ const HistoryFilterFormView = (props: OtherProps & FormikProps<FormValues>) => {
                 });
               } catch (err) {}
             }}
+            autoComplete="off"
           />
         </Col>
         <Col l={12} m={12} s={12}>

@@ -96,7 +96,3 @@ input[type='text']:not(.invalid):focus:not([readonly]) ~ label {
   animation-iteration-count: 1;
   animation-direction: normal;
 }
-
-input.datepicker + label {
-  width: 100%;
-}
