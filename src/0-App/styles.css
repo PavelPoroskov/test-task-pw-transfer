@@ -18,10 +18,6 @@
   background-color: transparent;
 }
 
-/* issue: in chrome autofilled field is lightblue
-input.input-field  {
-  background-color: transparent !important;
-} */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -99,4 +95,8 @@ input[type='text']:not(.invalid):focus:not([readonly]) ~ label {
   animation-delay: 0s;
   animation-iteration-count: 1;
   animation-direction: normal;
+}
+
+input.datepicker + label {
+  width: 100%;
 }

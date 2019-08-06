@@ -49,8 +49,8 @@ const styleMenu: React.CSSProperties = {
   flexDirection: 'row',
   alignItems: 'center',
   justifyContent: 'space-between', //? compatibility
-  paddingLeft: '0.5em',
-  paddingRight: '0.5em'
+  paddingLeft: '5px',
+  paddingRight: '5px'
 };
 
 const MainScreenView: React.FC<Props> = ({

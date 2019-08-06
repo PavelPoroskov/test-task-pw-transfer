@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import idgen from './idgen';
-import constants from './constants';
+import idgen from '../Autocomplete/idgen';
+import constants from '../Autocomplete/constants';
 
 class TextInput extends Component {
   constructor(props) {

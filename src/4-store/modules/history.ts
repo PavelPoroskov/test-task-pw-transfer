@@ -8,6 +8,7 @@ const GET = 'pw-transfer/history/GET';
 const GET_SUCCESS = 'pw-transfer/history/GET_SUCCESS';
 const GET_FAILURE = 'pw-transfer/history/GET_FAILURE';
 const CHANGE_SORTING = 'pw-transfer/history/CHANGE_SORTING';
+const CHANGE_FILTER = 'pw-transfer/history/CHANGE_FILTER';
 const RESET = 'pw-transfer/history/RESET';
 
 interface SortField {
@@ -19,8 +20,8 @@ type Sorting = SortField[];
 export interface HistoryState {
   list: Transaction[];
   filter: {
-    username: string | null;
     date: string | null;
+    username: string | null;
     amount: number | null;
   };
   sorting: Sorting;
@@ -28,8 +29,8 @@ export interface HistoryState {
 const initState: HistoryState = {
   list: [],
   filter: {
-    username: null,
     date: null,
+    username: null,
     amount: null
   },
   sorting: [{ name: 'date', direction: -1 }]
@@ -63,6 +64,17 @@ const updateSorting = (sorting: Sorting, field: string) => {
   return res;
 };
 
+const updateFilter = (newFilters: {
+  date?: string;
+  username?: string;
+  amount?: number;
+}) => {
+  return {
+    ...initState.filter,
+    ...newFilters
+  };
+};
+
 // Reducer
 export default function reducer(
   state: HistoryState = initState,
@@ -82,6 +94,12 @@ export default function reducer(
       return {
         ...state,
         sorting: updateSorting(state.sorting, action.payload)
+      };
+
+    case CHANGE_FILTER:
+      return {
+        ...state,
+        filter: updateFilter(action.payload)
       };
     case RESET:
       return initState;
@@ -105,6 +123,14 @@ export const resetHistory = () => ({ type: RESET });
 export const changeSorting = (field: string) => ({
   type: CHANGE_SORTING,
   payload: field
+});
+export const changeFilter = (filters: {
+  date?: string;
+  username?: string;
+  amount?: number;
+}) => ({
+  type: CHANGE_FILTER,
+  payload: filters
 });
 
 export const historyEpic: AppEpic = (action$, state$, { client }) =>

@@ -7,7 +7,7 @@ import { copyTransaction } from '4-store/modules/transaction';
 import { chooseHistory } from '4-store/modules/front';
 import { changeSorting } from '4-store/modules/history';
 
-import History from '5-components/History';
+import HistoryTable from '5-components/HistoryTable';
 
 const mapStateToProps = (state: RootState) => ({
   list: sortedHistory(state),
@@ -29,4 +29,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(History);
+)(HistoryTable);

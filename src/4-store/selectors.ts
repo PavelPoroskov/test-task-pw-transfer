@@ -40,19 +40,21 @@ export const filteredHistory = createSelector(
   (history, filter) => {
     const list = history.filter(item => {
       if (filter.username != null) {
-        // fullname or substring, or list of fullname
+        // .fullname or substring, or list of fullname
         if (item.username !== filter.username) {
           return false;
         }
       }
       if (filter.date != null) {
         // period or date
-        if (item.date !== filter.date) {
+        if (!item.date.startsWith(filter.date)) {
           return false;
         }
       }
       if (filter.amount != null) {
-        if (item.amount !== Math.max(filter.amount, -filter.amount)) {
+        if (
+          !(item.amount === filter.amount || item.amount === -filter.amount)
+        ) {
           return false;
         }
       }
@@ -106,5 +108,23 @@ export const columnsSettings = createSelector(
     }
 
     return res;
+  }
+);
+
+export const filterSettings = createSelector(
+  history_filter,
+  filter => {
+    const res: string[] = [];
+
+    if (filter.date != null) {
+      res.push(`Date: ${filter.date}`);
+    }
+    if (filter.username != null) {
+      res.push(`Correspondent: ${filter.username}`);
+    }
+    if (filter.amount != null) {
+      res.push(`Amount: ${filter.amount}`);
+    }
+    return res.join(', ');
   }
 );
