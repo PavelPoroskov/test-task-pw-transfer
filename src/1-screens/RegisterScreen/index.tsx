@@ -1,21 +1,23 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { requestRegister, choiceUseLoginForm } from '4-store/modules/auth';
+import { Redirect, RouteProps } from 'react-router-dom';
+
+import { requestRegister } from '4-store/modules/auth';
 import { RootState } from '4-store/types';
 
 import RegisterForm from '5-components/RegisterForm';
-import LinkButton from '6-dsystem/LinkButton';
+import RouterLink from '6-dsystem/RouterLink';
 
 const mapStateToProps = ({ auth }: RootState) => ({
+  logged: auth.logged,
   errorMessage: auth.errorMessage
 });
 type StateProps = ReturnType<typeof mapStateToProps>;
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    submit: (input: any) => dispatch(requestRegister(input)),
-    switchForm: () => dispatch(choiceUseLoginForm(true))
+    submit: (input: any) => dispatch(requestRegister(input))
   };
 };
 type DispatchProps = ReturnType<typeof mapDispatchToProps>;
@@ -28,19 +30,24 @@ const stylesRoot: React.CSSProperties = {
 const stylesFormContainer: React.CSSProperties = {
   marginTop: '10%'
 };
-const RegisterScreen: React.FC<DispatchProps & StateProps> = ({
+const RegisterScreen: React.FC<DispatchProps & StateProps & RouteProps> = ({
   submit,
-  switchForm,
-  errorMessage
+  logged,
+  errorMessage,
+  location
 }) => {
+  if (logged) {
+    return <Redirect to="/welcome" />;
+  }
+
   return (
     <div style={stylesRoot}>
       <div style={stylesFormContainer}>
         <RegisterForm submit={submit} errorMessage={errorMessage} />
       </div>
       <div>
-        Use <LinkButton onClick={switchForm}>Login Form </LinkButton> if you
-        have an account
+        Use <RouterLink to="/login">Login Form </RouterLink> if you have an
+        account
       </div>
     </div>
   );

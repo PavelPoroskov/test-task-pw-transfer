@@ -10,10 +10,11 @@ backend api: https://docs.google.com/document/d/1JbBdzroRFkHuUNAF7fnDuXvPgHgY-Xv
 use:  
 typescript,  
 absolute import,  
-redux with ducks module template,  
+redux with module template ducks,  
 redux-observable,  
-react-materialize,  
+react-materialize (materializecss),  
 formik, yup,  
 reselect,  
+react-router.
 
 

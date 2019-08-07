@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table } from 'react-materialize';
-import LinkButton from '6-dsystem/LinkButton';
 import SortedColumn from '5-components/SortedCollumn';
+import RouterLink from '6-dsystem/RouterLink';
 
 export interface Transaction {
   id: number;
@@ -15,7 +15,6 @@ export interface HistoryProps {
   columnsSettings: {
     [name: string]: { direction: null | number; order: null | number };
   };
-  copyTransaction: (input: { name: string; amount: number }) => void;
   updateSoringDate: () => void;
   updateSoringCorrespondent: () => void;
   updateSoringAmount: () => void;
@@ -23,19 +22,11 @@ export interface HistoryProps {
 
 const History: React.FC<HistoryProps> = ({
   list,
-  copyTransaction,
   updateSoringDate,
   updateSoringCorrespondent,
   updateSoringAmount,
   columnsSettings
 }) => {
-  const onClick = (e: any) => {
-    const ds = e.target.dataset;
-    copyTransaction({
-      name: ds.name,
-      amount: ds.amount
-    });
-  };
   return (
     <Table className="highlight">
       <thead>
@@ -73,13 +64,17 @@ const History: React.FC<HistoryProps> = ({
             <td className="right-align">{item.amount}</td>
             <td className="right-align">{item.balance}</td>
             <td className="center-align">
-              <LinkButton
-                data-name={item.username}
-                data-amount={`${Math.max(item.amount, -item.amount)}`}
-                onClick={onClick}
+              <RouterLink
+                to={{
+                  pathname: '/transaction',
+                  state: {
+                    name: item.username,
+                    amount: `${Math.max(item.amount, -item.amount)}`
+                  }
+                }}
               >
                 Copy
-              </LinkButton>
+              </RouterLink>
             </td>
           </tr>
         ))}

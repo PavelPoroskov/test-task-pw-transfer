@@ -11,8 +11,7 @@ const mapStateToProps = (state: RootState) => ({
   correspondentList: state.recipients.list,
   date: state.history.filter.date,
   username: state.history.filter.username,
-  amount: state.history.filter.amount,
-  showFilter: state.front.showFilter
+  amount: state.history.filter.amount
 });
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {

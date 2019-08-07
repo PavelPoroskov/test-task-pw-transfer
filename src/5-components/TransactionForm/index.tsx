@@ -19,6 +19,11 @@ interface OtherProps {
 }
 const toString = (value: number) => (value === 0 ? '' : `${value}`);
 
+const styleContentContainer: React.CSSProperties = {
+  display: 'flex',
+  justifyContent: 'center'
+};
+
 const TransactioFormView = (props: OtherProps & FormikProps<FormValues>) => {
   const {
     touched,
@@ -34,68 +39,70 @@ const TransactioFormView = (props: OtherProps & FormikProps<FormValues>) => {
   const options = { data: recipients };
 
   return (
-    <Form className="form">
-      <Row>
-        <Col l={12} m={12} s={12}>
-          <h4 className="center-align">New Transaction</h4>
-        </Col>
-      </Row>
-      <Row>
-        <Col l={12} m={12} s={12}>
-          <Autocomplete
-            label="Recipient"
-            name="name"
-            options={options}
-            autoComplete="off"
-            value={values['name']}
-            error={getError('name', errors, touched)}
-            onChange={(e: any, value: string) => {
-              if (e) {
-                onChangeFilter(value);
-                handleChange(e);
-              } else {
-                handleChange({ target: { name: 'name', value } });
-              }
-            }}
-            onBlur={handleBlur}
-          />
-        </Col>
-        <Col l={12} m={12} s={12}>
-          <TextInput
-            type="number"
-            min="0"
-            label="Amount"
-            name="amount"
-            autoComplete="off"
-            value={toString(values['amount'])}
-            error={getError('amount', errors, touched)}
-            onChange={(e: any) =>
-              handleChange({
-                target: { name: 'amount', value: e.target.value || 0 }
-              })
-            }
-            onBlur={handleBlur}
-          />
-        </Col>
-      </Row>
-      {errorMessage && (
+    <div style={styleContentContainer}>
+      <Form className="form">
         <Row>
           <Col l={12} m={12} s={12}>
-            <div className="center-align form__error">{errorMessage}</div>
+            <h4 className="center-align">New Transaction</h4>
           </Col>
         </Row>
-      )}
-      <Row>
-        <Col className="right">
-          <Button type="button" waves="light" onClick={cancel}>
-            Cancel
-          </Button>
-          <Button type="submit" waves="light" className="form__submit">
-            Commit
-          </Button>
-        </Col>
-      </Row>
-    </Form>
+        <Row>
+          <Col l={12} m={12} s={12}>
+            <Autocomplete
+              label="Recipient"
+              name="name"
+              options={options}
+              autoComplete="off"
+              value={values['name']}
+              error={getError('name', errors, touched)}
+              onChange={(e: any, value: string) => {
+                if (e) {
+                  onChangeFilter(value);
+                  handleChange(e);
+                } else {
+                  handleChange({ target: { name: 'name', value } });
+                }
+              }}
+              onBlur={handleBlur}
+            />
+          </Col>
+          <Col l={12} m={12} s={12}>
+            <TextInput
+              type="number"
+              min="0"
+              label="Amount"
+              name="amount"
+              autoComplete="off"
+              value={toString(values['amount'])}
+              error={getError('amount', errors, touched)}
+              onChange={(e: any) =>
+                handleChange({
+                  target: { name: 'amount', value: e.target.value || 0 }
+                })
+              }
+              onBlur={handleBlur}
+            />
+          </Col>
+        </Row>
+        {errorMessage && (
+          <Row>
+            <Col l={12} m={12} s={12}>
+              <div className="center-align form__error">{errorMessage}</div>
+            </Col>
+          </Row>
+        )}
+        <Row>
+          <Col className="right">
+            <Button type="button" waves="light" onClick={cancel}>
+              Cancel
+            </Button>
+            <Button type="submit" waves="light" className="form__submit">
+              Commit
+            </Button>
+          </Col>
+        </Row>
+      </Form>
+    </div>
   );
 };
 interface MyFormProps extends FormValues {

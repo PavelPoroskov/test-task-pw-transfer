@@ -6,7 +6,6 @@ import { of, from } from 'rxjs';
 import { RegisterUserInput, LoginInput } from '8-remote/client/index';
 import { requestUserInfo, resetUserInfo } from './userinfo';
 import { requestHistory, resetHistory } from './history';
-import { chooseHistory, chooseWelcome, resetFront } from './front';
 import { resetRecipients } from './recipients';
 import { resetTransaction } from './transaction';
 import { ActionP, AppEpic } from '../types';
@@ -18,17 +17,14 @@ const LOGIN = 'pw-transfer/auth/LOGIN';
 const LOGIN_SUCCESS = 'pw-transfer/auth/LOGIN_SUCCESS';
 const LOGIN_FAILURE = 'pw-transfer/auth/LOGIN_FAILURE';
 const LOGOUT = 'pw-transfer/auth/LOGOUT';
-const CHOICE_USE_LOGIN_FORM = 'pw-transfer/auth/CHOICE_USE_LOGIN_FORM';
 
 export interface AuthState {
   logged: boolean;
-  useLoginForm: boolean;
   errorMessage: string | null;
 }
 
 const initState: AuthState = {
   logged: false,
-  useLoginForm: true,
   errorMessage: null
 };
 
@@ -37,12 +33,6 @@ export default function reducer(
   action: ActionP
 ): AuthState {
   switch (action.type) {
-    case CHOICE_USE_LOGIN_FORM:
-      return {
-        ...initState,
-        useLoginForm: action.payload,
-        errorMessage: null
-      };
     case REGISTER:
     case LOGIN:
       return {
@@ -71,11 +61,6 @@ export default function reducer(
 }
 
 // Action Creators
-export const choiceUseLoginForm = (payload: boolean) => ({
-  type: CHOICE_USE_LOGIN_FORM,
-  payload
-});
-
 export const requestRegister = (input: RegisterUserInput) => ({
   type: REGISTER,
   payload: input
@@ -108,8 +93,7 @@ export const registerEpic: AppEpic = (action$, state$, { client }) =>
           batchActions([
             requestRegisterSuccess(),
             requestUserInfo(),
-            requestHistory(),
-            chooseWelcome()
+            requestHistory()
           ])
         ),
         catchError(error => of(requestRegisterFailure(error)))
@@ -126,8 +110,7 @@ export const loginEpic: AppEpic = (action$, state$, { client }) =>
           batchActions([
             requestLoginSuccess(),
             requestUserInfo(),
-            requestHistory(),
-            chooseHistory(true)
+            requestHistory()
           ])
         ),
         catchError(error => of(requestLoginFailure(error)))
@@ -144,7 +127,6 @@ export const logoutEpic: AppEpic = (action$, state$, { client }) =>
           batchActions([
             resetUserInfo(),
             resetHistory(),
-            resetFront(),
             resetTransaction(),
             resetRecipients()
           ])

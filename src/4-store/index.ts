@@ -8,7 +8,6 @@ import userinfo, { userInfoEpic } from './modules/userinfo';
 import history, { historyEpic } from './modules/history';
 import transaction, { commitTransactionEpic } from './modules/transaction';
 import recipients, { recipientsEpic } from './modules/recipients';
-import front from './modules/front';
 
 import { RootState, EpicDependencies } from './types';
 
@@ -17,8 +16,7 @@ const rootReducer = combineReducers<RootState>({
   userinfo,
   transaction,
   history,
-  recipients,
-  front
+  recipients
 });
 
 const rootEpic = combineEpics(

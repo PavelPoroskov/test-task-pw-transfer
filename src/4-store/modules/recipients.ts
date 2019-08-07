@@ -1,5 +1,5 @@
 import { ofType } from 'redux-observable';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import { switchMap, map, catchError, debounceTime } from 'rxjs/operators';
 import { of, from } from 'rxjs';
 
 import { ActionP, AppEpic } from '../types';
@@ -68,6 +68,7 @@ export const resetRecipients = () => ({ type: RESET });
 export const recipientsEpic: AppEpic = (action$, state$, { client }) =>
   action$.pipe(
     ofType(GET),
+    debounceTime(400),
     switchMap(({ payload }) =>
       from(client.getRecipients(payload)).pipe(
         map(response => requestRecipientsSuccess(response)),

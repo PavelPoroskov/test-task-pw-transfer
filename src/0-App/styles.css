@@ -7,6 +7,8 @@
   display: inline;
   margin: 0;
   padding: 0;
+  line-height: 160%;
+  color: inherit;
 }
 
 .link-button:hover,
@@ -95,4 +97,20 @@ input[type='text']:not(.invalid):focus:not([readonly]) ~ label {
   animation-delay: 0s;
   animation-iteration-count: 1;
   animation-direction: normal;
+}
+
+.filter-expandable {
+  border: unset;
+  box-shadow: unset;
+  margin: 0 0 0.5rem 0;
+}
+.filter-expandable .collapsible-header {
+  border-bottom: unset;
+  text-decoration: underline;
+  padding: 0 5px;
+}
+.filter-expandable .collapsible-body {
+  padding: unset;
+  border-bottom: unset;
+  box-sizing: inherit;
 }

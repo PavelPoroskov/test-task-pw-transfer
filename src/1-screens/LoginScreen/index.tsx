@@ -1,25 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { requestLogin, choiceUseLoginForm } from '4-store/modules/auth';
+import { Dispatch } from 'redux';
+import { Redirect } from 'react-router-dom';
+
+import { requestLogin } from '4-store/modules/auth';
 import { RootState } from '4-store/types';
 
-import { Dispatch } from 'redux';
-
 import LoginForm from '5-components/LoginForm';
-import LinkButton from '6-dsystem/LinkButton';
-
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    submit: (input: any) => dispatch(requestLogin(input)),
-    switchForm: () => dispatch(choiceUseLoginForm(false))
-  };
-};
-type DispatchProps = ReturnType<typeof mapDispatchToProps>;
+import RouterLink from '6-dsystem/RouterLink';
 
 const mapStateToProps = ({ auth }: RootState) => ({
+  logged: auth.logged,
   errorMessage: auth.errorMessage
 });
 type StateProps = ReturnType<typeof mapStateToProps>;
+
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    submit: (input: any) => dispatch(requestLogin(input))
+  };
+};
+type DispatchProps = ReturnType<typeof mapDispatchToProps>;
 
 const stylesRoot: React.CSSProperties = {
   display: 'flex',
@@ -33,17 +34,21 @@ const stylesFormContainer: React.CSSProperties = {
 };
 const LoginScreen: React.FC<DispatchProps & StateProps> = ({
   submit,
-  switchForm,
+  logged,
   errorMessage
 }) => {
+  if (logged) {
+    return <Redirect to="/history" />;
+  }
+
   return (
     <div style={stylesRoot}>
       <div style={stylesFormContainer}>
         <LoginForm submit={submit} errorMessage={errorMessage} />
       </div>
       <div>
-        Use <LinkButton onClick={switchForm}>Register Form </LinkButton> to
-        create an account
+        Use <RouterLink to="/register">Register Form </RouterLink> to create an
+        account
       </div>
     </div>
   );
