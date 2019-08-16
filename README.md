@@ -12,10 +12,10 @@ typescript,
 absolute import,  
 redux with module template ducks,  
 redux-observable,  
-redux-batched-actions,
+redux-batched-actions,  
 react-materialize (materializecss),  
 formik, yup,  
 reselect,  
-react-router.
+react-router.  
 
 
