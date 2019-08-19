@@ -16,7 +16,7 @@ const Welcome: React.FC<WelcomeProps> = ({ username }) => {
   return (
     <div style={container}>
       <div style={first}>
-        <h3>Welcome {username}!</h3>
+        <h3>Welcome, {username}!</h3>
       </div>
       <div>
         <h5>You are awarded with an initial balance of 500 PW.</h5>
