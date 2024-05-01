@@ -84,7 +84,7 @@ const requestLoginFailure = (error: any) => ({
 export const requestLogout = () => ({ type: LOGOUT });
 
 // Side Effects
-export const registerEpic: AppEpic = (action$, state$, { client }) =>
+export const registerEpic: AppEpic = (action$, _state$, { client }) =>
   action$.pipe(
     ofType(REGISTER),
     switchMap(({ payload }) =>
@@ -101,7 +101,7 @@ export const registerEpic: AppEpic = (action$, state$, { client }) =>
     )
   );
 
-export const loginEpic: AppEpic = (action$, state$, { client }) =>
+export const loginEpic: AppEpic = (action$, _state$, { client }) =>
   action$.pipe(
     ofType(LOGIN),
     switchMap(({ payload }) =>
@@ -118,7 +118,7 @@ export const loginEpic: AppEpic = (action$, state$, { client }) =>
     )
   );
 
-export const logoutEpic: AppEpic = (action$, state$, { client }) =>
+export const logoutEpic: AppEpic = (action$, _state$, { client }) =>
   action$.pipe(
     ofType(LOGIN),
     switchMap(() =>

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 interface Props {
   readonly onClick: (e: any) => void;
+  children: ReactNode
 }
 const styleNew: React.CSSProperties = {
   lineHeight: '160%'

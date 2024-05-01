@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import { requestLogin } from '4-store/modules/auth';
 import { RootState } from '4-store/types';
@@ -38,7 +38,7 @@ const LoginScreen: React.FC<DispatchProps & StateProps> = ({
   errorMessage
 }) => {
   if (logged) {
-    return <Redirect to="/history" />;
+    return <Navigate to="/history" replace/>;
   }
 
   return (

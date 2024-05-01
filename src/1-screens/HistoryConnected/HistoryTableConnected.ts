@@ -13,9 +13,9 @@ const mapStateToProps = (state: RootState) => ({
 });
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    updateSoringDate: () => dispatch(changeSorting('date')),
-    updateSoringCorrespondent: () => dispatch(changeSorting('username')),
-    updateSoringAmount: () => dispatch(changeSorting('amount'))
+    updateSortingDate: () => dispatch(changeSorting('date')),
+    updateSortingCorrespondent: () => dispatch(changeSorting('username')),
+    updateSortingAmount: () => dispatch(changeSorting('amount'))
   };
 };
 export default connect(

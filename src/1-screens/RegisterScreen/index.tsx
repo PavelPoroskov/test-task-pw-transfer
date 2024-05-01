@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Redirect, RouteProps } from 'react-router-dom';
+import { Navigate, RouteProps } from 'react-router-dom';
 
 import { requestRegister } from '4-store/modules/auth';
 import { RootState } from '4-store/types';
@@ -34,10 +34,9 @@ const RegisterScreen: React.FC<DispatchProps & StateProps & RouteProps> = ({
   submit,
   logged,
   errorMessage,
-  location
 }) => {
   if (logged) {
-    return <Redirect to="/welcome" />;
+    return <Navigate to="/welcome" replace />;
   }
 
   return (

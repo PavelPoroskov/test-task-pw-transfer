@@ -1,4 +1,6 @@
-import { Action, applyMiddleware, combineReducers, createStore } from 'redux';
+import { Action, combineReducers } from 'redux';
+import { configureStore } from '@reduxjs/toolkit'
+// TODO batching is in last version. We can use it
 import { enableBatching } from 'redux-batched-actions';
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
 
@@ -11,7 +13,7 @@ import recipients, { recipientsEpic } from './modules/recipients';
 
 import { RootState, EpicDependencies } from './types';
 
-const rootReducer = combineReducers<RootState>({
+const rootReducer = combineReducers({
   auth,
   userinfo,
   transaction,
@@ -35,15 +37,15 @@ const epicMiddleware = createEpicMiddleware<
   EpicDependencies
 >({ dependencies: { client } });
 
-function configureStore() {
-  const store = createStore(
-    enableBatching(rootReducer),
-    applyMiddleware(epicMiddleware)
-  );
-
+function createStore() {
+  const store = configureStore({
+    reducer: enableBatching(rootReducer),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(epicMiddleware),
+  })
+  
   epicMiddleware.run(rootEpic);
 
   return store;
 }
 
-export default configureStore();
+export default createStore();

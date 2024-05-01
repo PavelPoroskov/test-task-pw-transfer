@@ -1,5 +1,6 @@
 import React from 'react';
 
+// @ts-ignore
 import MDatePicker from './DatePicker';
 
 const DatePicker: React.FC<any> = ({ value, onSelect, ...restProps }) => {

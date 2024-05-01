@@ -1,12 +1,12 @@
 import { batchActions } from 'redux-batched-actions';
-import { ofType } from 'redux-observable';
+// import { ofType } from 'redux-observable';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { of, from } from 'rxjs';
 
 import { CreateTransactionInput } from '8-remote/client';
 import { requestUserInfo } from './userinfo';
 import { requestHistory } from './history';
-import { ActionP, AppEpic } from '../types';
+import { ActionP, AppEpic, ofType } from '../types';
 
 const COMMIT = 'pw-transfer/transaction/COMMIT';
 const COMMIT_SUCCESS = 'pw-transfer/transaction/COMMIT_SUCCESS';
@@ -47,7 +47,7 @@ export default function reducer(
 export const resetTransaction = () => ({ type: RESET });
 export const requestCommit = (props: {
   input: CreateTransactionInput;
-  history: any;
+  navigateBack: () => void;
 }) => ({
   type: COMMIT,
   payload: props
@@ -58,14 +58,15 @@ const requestCommitFailure = (error: any) => ({
   payload: error.message
 });
 
+// TODO payload is type never
 // Side Effects
-export const commitTransactionEpic: AppEpic = (action$, state$, { client }) =>
+export const commitTransactionEpic: AppEpic = (action$, _state$, { client }) =>
   action$.pipe(
     ofType(COMMIT),
     switchMap(({ payload }) =>
       from(client.createTransaction(payload.input)).pipe(
         map(() => {
-          payload.history.goBack();
+          payload.navigateBack();
           return batchActions([
             requestCommitSuccess(),
             requestUserInfo(),

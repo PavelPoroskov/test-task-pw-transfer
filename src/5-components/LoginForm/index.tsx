@@ -1,4 +1,3 @@
-import React from 'react';
 import { withFormik, FormikProps, Form } from 'formik';
 import { string as yup_string, object as yup_object } from 'yup';
 import { Row, Col, Button } from 'react-materialize';
@@ -67,7 +66,7 @@ interface MyFormProps {
   errorMessage: null | string;
 }
 export default withFormik<MyFormProps, FormValues>({
-  mapPropsToValues: props => {
+  mapPropsToValues: _props => {
     return {
       email: '',
       password: ''

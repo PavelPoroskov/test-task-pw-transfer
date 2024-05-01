@@ -65,7 +65,7 @@ const requestRecipientsFailure = (error: any) => ({
 export const resetRecipients = () => ({ type: RESET });
 
 // Side Effects
-export const recipientsEpic: AppEpic = (action$, state$, { client }) =>
+export const recipientsEpic: AppEpic = (action$, _state$, { client }) =>
   action$.pipe(
     ofType(GET),
     debounceTime(400),

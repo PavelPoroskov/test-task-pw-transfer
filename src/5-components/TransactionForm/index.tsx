@@ -12,11 +12,14 @@ interface FormValues {
   amount: number;
 }
 interface OtherProps {
-  cancel: () => void;
+  submit: (values: any) => void;
+  onCancel: () => void;
+  balance: number;
   onChangeFilter: (filter: string) => void;
   recipients: { [key: string]: any };
   errorMessage: null | string;
 }
+
 const toString = (value: number) => (value === 0 ? '' : `${value}`);
 
 const styleContentContainer: React.CSSProperties = {
@@ -24,13 +27,13 @@ const styleContentContainer: React.CSSProperties = {
   justifyContent: 'center'
 };
 
-const TransactioFormView = (props: OtherProps & FormikProps<FormValues>) => {
+const TransactionFormView: React.FC<OtherProps & FormikProps<FormValues>> = (props) => {
   const {
     touched,
     errors,
     handleChange,
     handleBlur,
-    cancel,
+    onCancel,
     values,
     recipients,
     onChangeFilter,
@@ -93,7 +96,7 @@ const TransactioFormView = (props: OtherProps & FormikProps<FormValues>) => {
         )}
         <Row>
           <Col className="right">
-            <Button type="button" waves="light" onClick={cancel}>
+            <Button type="button" waves="light" onClick={onCancel}>
               Cancel
             </Button>
             <Button type="submit" waves="light" className="form__submit">
@@ -105,15 +108,7 @@ const TransactioFormView = (props: OtherProps & FormikProps<FormValues>) => {
     </div>
   );
 };
-interface MyFormProps extends FormValues {
-  submit: (values: any) => void;
-  cancel: () => void;
-  balance: number;
-  onChangeFilter: (filter: string) => void;
-  recipients: { [key: string]: any };
-  errorMessage: null | string;
-}
-export default withFormik<MyFormProps, FormValues>({
+const TransactionForm = withFormik<FormValues & OtherProps, FormValues>({
   mapPropsToValues: props => {
     return {
       name: props.name || '',
@@ -135,7 +130,9 @@ export default withFormik<MyFormProps, FormValues>({
       try {
         schema.validateSync(value);
       } catch (err) {
-        errors[name] = err.errors[0];
+        if (typeof err === 'object' && err !== null && 'errors' in err && Array.isArray(err.errors) && err.errors[0]) {
+          errors[name] = err.errors[0];
+        }
       }
     };
 
@@ -160,5 +157,7 @@ export default withFormik<MyFormProps, FormValues>({
     return errors;
   },
   enableReinitialize: true,
-  displayName: 'TransactioForm'
-})(TransactioFormView);
+  displayName: 'TransactionForm'
+})(TransactionFormView);
+
+export default TransactionForm

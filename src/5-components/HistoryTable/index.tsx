@@ -15,16 +15,16 @@ export interface HistoryProps {
   columnsSettings: {
     [name: string]: { direction: null | number; order: null | number };
   };
-  updateSoringDate: () => void;
-  updateSoringCorrespondent: () => void;
-  updateSoringAmount: () => void;
+  updateSortingDate: () => void;
+  updateSortingCorrespondent: () => void;
+  updateSortingAmount: () => void;
 }
 
 const History: React.FC<HistoryProps> = ({
   list,
-  updateSoringDate,
-  updateSoringCorrespondent,
-  updateSoringAmount,
+  updateSortingDate,
+  updateSortingCorrespondent,
+  updateSortingAmount,
   columnsSettings
 }) => {
   return (
@@ -34,21 +34,21 @@ const History: React.FC<HistoryProps> = ({
           <th>
             <SortedColumn
               title="Date/Time"
-              onClick={updateSoringDate}
+              onClick={updateSortingDate}
               settings={columnsSettings['date']}
             />
           </th>
           <th>
             <SortedColumn
               title="Correspondent"
-              onClick={updateSoringCorrespondent}
+              onClick={updateSortingCorrespondent}
               settings={columnsSettings['username']}
             />
           </th>
           <th className="right-align">
             <SortedColumn
               title="Amount"
-              onClick={updateSoringAmount}
+              onClick={updateSortingAmount}
               settings={columnsSettings['amount']}
             />
           </th>

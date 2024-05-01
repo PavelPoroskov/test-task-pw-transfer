@@ -1,4 +1,3 @@
-import React from 'react';
 import { withFormik, FormikProps, Form } from 'formik';
 import { string as yup_string, Schema } from 'yup';
 import { Row, Col, Button } from 'react-materialize';
@@ -90,7 +89,7 @@ interface MyFormProps {
   errorMessage: null | string;
 }
 export default withFormik<MyFormProps, FormValues>({
-  mapPropsToValues: props => {
+  mapPropsToValues: _props => {
     return {
       username: '',
       email: '',
@@ -114,7 +113,9 @@ export default withFormik<MyFormProps, FormValues>({
       try {
         schema.validateSync(value);
       } catch (err) {
-        errors[name] = err.errors[0];
+        if (typeof err === 'object' && err !== null && 'errors' in err && Array.isArray(err.errors) && err.errors[0]) {
+          errors[name] = err.errors[0];
+        }
       }
     };
 

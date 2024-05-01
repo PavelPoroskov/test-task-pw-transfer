@@ -2,9 +2,9 @@ import { Action } from 'redux';
 import { Epic } from 'redux-observable';
 import { BatchActionType } from 'redux-batched-actions';
 import { mergeMap } from 'rxjs/operators';
-import { of, from, empty } from 'rxjs';
+import { of, from, EMPTY } from 'rxjs';
 
-import { ClientInteface } from '8-remote/client/index';
+import { ClientInterface } from '8-remote/client/index';
 import { AuthState } from './modules/auth';
 import { UserInfoState } from './modules/userinfo';
 import { HistoryState } from './modules/history';
@@ -20,7 +20,7 @@ export interface RootState {
 }
 
 export interface EpicDependencies {
-  readonly client: ClientInteface;
+  readonly client: ClientInterface;
 }
 
 export interface ActionP extends Action {
@@ -49,7 +49,7 @@ export const ofType = <T extends Action>(type: T['type']) =>
       return from(action.payload.filter(action => action.type === type));
     }
 
-    return empty();
+    return EMPTY;
   });
 
 export type AppEpic = Epic<ActionP, ActionP, RootState, EpicDependencies>;

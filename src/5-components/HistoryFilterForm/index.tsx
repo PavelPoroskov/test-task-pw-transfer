@@ -1,4 +1,3 @@
-import React from 'react';
 import { withFormik, FormikProps, Form } from 'formik';
 import { Row, Col, Button } from 'react-materialize';
 

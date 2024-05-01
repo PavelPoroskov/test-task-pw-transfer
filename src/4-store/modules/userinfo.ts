@@ -47,10 +47,10 @@ const requestUserInfoFailure = (payload: any) => ({
 });
 export const resetUserInfo = () => ({ type: RESET });
 
-export const userInfoEpic: AppEpic = (action$, state$, { client }) =>
+export const userInfoEpic: AppEpic = (action$, _state$, { client }) =>
   action$.pipe(
     ofType(GET),
-    switchMap(({ payload }) =>
+    switchMap(() =>
       from(client.getLoggedUserInfo()).pipe(
         map(response => requestUserInfoSuccess(response)),
         catchError(error => of(requestUserInfoFailure(error)))

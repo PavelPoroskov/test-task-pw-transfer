@@ -1,5 +1,6 @@
 import React from 'react';
 
+// @ts-ignore
 import MAutocomplete from './Autocomplete';
 
 const Autocomplete: React.FC<any> = ({ error, ...restProps }) => {

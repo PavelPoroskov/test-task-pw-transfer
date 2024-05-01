@@ -36,14 +36,11 @@ export interface CreateTransactionInput {
   name: string;
   amount: number;
 }
-interface CreateTransactionResult {
-  trans_token: Transaction;
-}
 export interface Recipient {
   id: number;
   name: string;
 }
-export interface ClientInteface {
+export interface ClientInterface {
   register: (input: RegisterUserInput) => Promise<void>;
   login: (input: LoginInput) => Promise<void>;
   logout: () => Promise<void>;
@@ -96,6 +93,6 @@ function makeClient() {
   };
 }
 
-const client: ClientInteface = makeClient();
+const client: ClientInterface = makeClient();
 
 export default client;

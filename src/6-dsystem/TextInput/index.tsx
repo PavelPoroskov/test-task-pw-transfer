@@ -1,5 +1,6 @@
 import React from 'react';
 
+// @ts-ignore
 import MTextInput from './TextInput';
 
 const TextInput: React.FC<any> = ({ error, ...restProps }) => {

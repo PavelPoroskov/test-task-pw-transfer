@@ -133,10 +133,11 @@ export const changeFilter = (filters: {
   payload: filters
 });
 
-export const historyEpic: AppEpic = (action$, state$, { client }) =>
+export const historyEpic: AppEpic = (action$, _state$, { client }) =>
   action$.pipe(
     ofType(GET),
-    switchMap(({ payload }) =>
+    // switchMap(({ payload }) =>
+    switchMap(() =>
       from(client.getLoggedUserTransactions()).pipe(
         map(response => requestHistorySuccess(response)),
         catchError(error => of(requestHistoryFailure(error)))
