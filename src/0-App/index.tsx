@@ -34,6 +34,10 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
+        index: true,
+        element: <Navigate to="/transaction" replace />,
+      },
+      {
         path: "login",
         element: <LoginScreen />,
       },
@@ -68,12 +72,13 @@ const router = createBrowserRouter([
             element: <Navigate to="/history" replace />,
           },
         ]
-      },
+      }
     ],
   },
 ]);
 
 const App: React.FC = () => {
+  console.log('in App');
   return (
     <Provider store={store}>
       <RouterProvider router={router} />

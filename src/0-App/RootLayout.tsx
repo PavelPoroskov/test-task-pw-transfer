@@ -7,6 +7,7 @@ const stylesRoot: React.CSSProperties = {
 };
 
 const RootLayout: React.FC = () => {
+  // console.log('in RootLayout');
   return (
     <Row style={stylesRoot}>
       <Col s={12} m={10} l={8} offset="m1 l2">
