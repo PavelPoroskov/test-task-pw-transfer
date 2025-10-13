@@ -1,0 +1,12 @@
+do not use npm i --force (npm audit fix --force)
+  do changes: replace version or npm module
+
+react@"^18.3.1" from the root project
+peer react@"^17.0.2" from react-materialize@3.10.0
+
+solution:
+replace react-materialize
+
+
+use eslint@9 config file
+  from vite@7
